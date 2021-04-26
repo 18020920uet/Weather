@@ -1,2 +1,5 @@
-# INT3120_3_-2020-
-Bài tập project cuối kỳ môn phát triển ứng dụng di động
+# [WeatherApp](https://github.com/inFngNam/WeatherAppKotlin)
+---
+## Description
+Project cuối kỳ môn phát triển ứng dụng di động
+---
