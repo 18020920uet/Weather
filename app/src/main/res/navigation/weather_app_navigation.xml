@@ -8,6 +8,44 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.weatherapp.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_findLocationFragment"
+            app:destination="@id/findLocationFragment"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_weatherFragment"
+            app:destination="@id/weatherFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="com.example.weatherapp.aboutus.AboutUsFragment"
+        android:label="@string/about_us"
+        tools:layout="@layout/fragment_about_us" />
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.weatherapp.setting.SettingFragment"
+        android:label="@string/setting"
+        tools:layout="@layout/fragment_setting" />
+
+    <fragment
+        android:id="@+id/findLocationFragment"
+        android:name="com.example.weatherapp.findlocation.FindLocationFragment"
+        android:label="@string/find_location"
+        tools:layout="@layout/fragment_find_location" >
+        <action
+            android:id="@+id/action_findLocationFragment_to_weatherFragment"
+            app:destination="@id/weatherFragment"
+            app:popUpTo="@id/findLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weatherFragment"
+        android:name="com.example.weatherapp.weather.WeatherFragment"
+        android:label="@string/setting"
+        tools:layout="@layout/fragment_weather" />
+
 </navigation>

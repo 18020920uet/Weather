@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/about_us" />
-    <item android:title="@string/setting" />
+    <item
+        android:id="@+id/aboutUsFragment"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/about_us" />
+    <item
+        android:id="@+id/settingFragment"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="@string/setting" />
 </menu>
