@@ -4,6 +4,8 @@ buildscript {
         version_navigation = "2.3.0"
         kotlin_version = "1.4.32"
         support_version = "27.1.0"
+        version_joda = "2.10"
+        version_room = "2.3.0"
     }
     repositories {
         google()
