@@ -18,5 +18,5 @@ interface LocationDatabaseDAO {
     fun getLocations(): LiveData<List<Location>>
 
     @Query("SELECT * FROM locations WHERE isCurrentLocation = 1")
-    suspend fun getCurrentLocation(): Location
+    suspend fun getCurrentLocation(): Location?
 }

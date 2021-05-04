@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.weatherapp.database.entities.Location
 import com.example.weatherapp.database.entities.LocationDatabaseDAO
 
-@Database(entities = [Location::class], version = 1, exportSchema = false)
+@Database(entities = [Location::class], version = 2, exportSchema = false)
 abstract class WeatherAppDatabase : RoomDatabase() {
 
     abstract val locationDatabaseDAO: LocationDatabaseDAO
@@ -21,8 +21,12 @@ abstract class WeatherAppDatabase : RoomDatabase() {
                 var instance = INSTANCE
 
                 if (instance == null) {
-                    instance = Room.databaseBuilder(context.applicationContext, WeatherAppDatabase::class.java, "weather_app_database")
-                            .fallbackToDestructiveMigration().build()
+                    instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        WeatherAppDatabase::class.java,
+                        "weather_app_database"
+                    )
+                        .fallbackToDestructiveMigration().build()
                     INSTANCE = instance
                 }
                 return instance
