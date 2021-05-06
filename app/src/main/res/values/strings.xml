@@ -6,5 +6,46 @@
     <string name="find_location">Find Location</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--AboutUS-->
     <string name="about_us">About Us</string>
+    <string name="mission">Mục đích của app</string>
+    <string name="mission_text">
+        <li> Mang lại trải nghiệm tiện ích  </li>\n
+        <li> Cung cấp thông tin thời tiết kịp thời </li>\n
+        <li> Dự báo và cảnh báo để biết trước được thời tiết.</li>\n
+        <li> Theo dõi, tổng hợp về tình hình khí hậu, thiên tai, xu thế biến đổi khí hậu trong khu vực.</li>\n
+    </string>
+    <string name="vision">Tầm nhìn của app</string>
+    <string name="vission_text">
+        <li>Sẵn sàng ứng phó với thời tiết </li>\n
+        <li>Chủ động trong mọi hoạt động</li>\n
+        </string>
+    <string name="who_we_are">Chúng tôi là</string>\n
+    <string name="who_we_are_text">APP đóng vai trò quan trọng trong việc cung cấp kịp thời thông tin thời tiết cho bạn.</string>\n
+    <string name="service">Dịch vụ</string>\n
+    <string name="service_text">
+        <li>1</li>\n
+        <li>2</li>\n
+        <li>3</li>\n
+    </string>
+    <string name="inforGroup">Thông tin nhóm</string>
+    <string name="infor_group_text">
+        <ul>Nhóm gồm 3 thành viên\n
+        <li>Nguyễn Văn Nam-</li>\n
+        <li>Vương Thành Toàn-</li>\n
+        <li>Trịnh Thị Thư-18021245</li>\n
+        </ul>\n
+    </string>
+    <string name="inforApp">Thông tin app</string>
+    <string name="infor_app_text">
+        <li>Link github: <a href ="https://github.com/inFngNam/WeatherAppKotlin">Weather</a></li>\n
+        <li>Version: 0.0.0</li>\n
+
+    </string>
+
+
+    <!--AboutUS-->
+
+
+
 </resources>

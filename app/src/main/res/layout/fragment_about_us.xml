@@ -1,14 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tool:context="com.example.weatherapp.aboutus.AboutUsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/about_us" />
 
-</FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/aboutUs"
+        app:layout_constraintEnd_toEndOf="@+id/infor_app_text_id"
+        app:layout_constraintStart_toEndOf="@+id/infor_app_text_id">
+
+
+        <TextView
+            android:id="@+id/mission_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="100dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/mission"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/image_mission_id"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/mission_text_id"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="@string/mission_text"
+            android:textColor="@color/textAbout"
+            app:layout_constraintEnd_toStartOf="@+id/image_mission_id"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mission_id" />
+
+
+        <ImageView
+            android:id="@+id/image_mission_id"
+            android:layout_width="0dp"
+
+            android:layout_height="0dp"
+
+            android:layout_marginEnd="1dp"
+            android:contentDescription="TODO"
+            app:layout_constraintBottom_toTopOf="@+id/vission_id"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/mission_id"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/weather_about" />
+
+        <TextView
+            android:id="@+id/vission_text_id"
+            android:layout_width="232dp"
+            android:layout_height="0dp"
+            android:text="@string/vission_text"
+            android:textColor="@color/textAbout"
+            app:layout_constraintBottom_toTopOf="@+id/image_service_id"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/image_vission_id"
+            app:layout_constraintTop_toBottomOf="@+id/vission_id" />
+
+        <TextView
+            android:id="@+id/vission_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="92dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/vision"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/image_mission_id"
+            app:layout_constraintTop_toBottomOf="@+id/mission_text_id" />
+
+        <ImageView
+            android:id="@+id/image_vission_id"
+            android:layout_width="176dp"
+            android:layout_height="0dp"
+            android:contentDescription="TODO"
+
+            app:layout_constraintBottom_toTopOf="@+id/service_id"
+            app:layout_constraintEnd_toStartOf="@+id/vission_text_id"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mission_text_id"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/service_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="324dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/service"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/service_text_id"
+            android:layout_width="233dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+
+            android:layout_marginBottom="24dp"
+            android:text="@string/service_text"
+            app:layout_constraintBottom_toBottomOf="@+id/infor_group_id"
+            app:layout_constraintEnd_toStartOf="@+id/image_service_id"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/service_id" />
+
+        <ImageView
+            android:id="@+id/image_service_id"
+            android:layout_width="175dp"
+            android:layout_height="196dp"
+            android:layout_marginTop="152dp"
+
+
+            android:layout_marginBottom="152dp"
+            android:contentDescription="TODO"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/service_text_id"
+            app:layout_constraintTop_toBottomOf="@+id/vission_id"
+            app:srcCompat="@drawable/about_ex" />
+
+        <TextView
+            android:id="@+id/infor_app_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="128dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/inforApp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/infor_app_text_id"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+
+            android:layout_marginBottom="8dp"
+            android:text="@string/infor_app_text"
+            android:textColor="@color/textAbout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/infor_group_text_id"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/infor_app_id" />
+
+        <TextView
+            android:id="@+id/infor_group_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="@string/inforGroup"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/infor_group_text_id"
+            app:layout_constraintStart_toStartOf="@+id/infor_group_text_id" />
+
+        <TextView
+            android:id="@+id/infor_group_text_id"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+
+            android:layout_marginTop="1dp"
+
+
+            android:layout_marginBottom="7dp"
+            android:text="@string/infor_group_text"
+            android:textColor="@color/textAbout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/infor_app_text_id"
+            app:layout_constraintTop_toTopOf="@+id/infor_app_text_id" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
