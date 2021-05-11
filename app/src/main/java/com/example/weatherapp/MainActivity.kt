@@ -11,6 +11,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.example.weatherapp.databinding.ActivityMainBinding
 
+const val TEMPERATURE_UNIT_KEY = "TEMPERATURE_UNIT"
+const val SPEED_UNIT_KEY = "SPEED_UNIT"
+const val PRESSURE_UNIT_KEY = "PRESSURE_UNIT"
+const val LANGUAGE_KEY = "LANGUAGE"
+
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
@@ -32,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
 
-        navController.addOnDestinationChangedListener { nc: NavController, nd: NavDestination, _bundle: Bundle? ->
+        navController.addOnDestinationChangedListener { nc: NavController, nd: NavDestination, _: Bundle? ->
             if (nd.id == nc.graph.startDestination) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             } else {

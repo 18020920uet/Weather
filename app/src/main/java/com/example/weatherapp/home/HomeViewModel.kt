@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.weatherapp.Settings
+import com.example.weatherapp.convertTemperature
 import com.example.weatherapp.database.entities.Location
 import com.example.weatherapp.database.entities.LocationDatabaseDAO
 import com.example.weatherapp.network.OneCallApi
@@ -13,21 +15,28 @@ import timber.log.Timber
 class HomeViewModel(val database: LocationDatabaseDAO, application: Application) :
     AndroidViewModel(application) {
 
-    private val _currentLocation = MutableLiveData<Location>()
-    val currentLocation: LiveData<Location>
+    private var _currentLocation = MutableLiveData<Location?>()
+    val currentLocation: LiveData<Location?>
         get() = _currentLocation
 
+    private var _notification = MutableLiveData<String>()
+    val notification: LiveData<String>
+        get() = _notification
 
-    private var _errorNotification = MutableLiveData<String>()
-    val errorNotification: LiveData<String>
-        get() = _errorNotification
-
-    fun onShowErrorNotificationComplete() {
-        _errorNotification.value = ""
+    fun onShowNotificationComplete() {
+        _notification.value = ""
     }
+
+    fun setNotification(notification: String) {
+        _notification.value = notification
+    }
+
+    var settings: Settings = Settings()
 
     private var viewModelJob = Job()
     private var viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+//    var locations = database.getLocations()
 
     override fun onCleared() {
         super.onCleared()
@@ -35,29 +44,67 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
     }
 
     init {
+        Timber.i("$settings")
         Timber.i("onInit")
-        getCurrentLocation()
+        initCurrentLocation()
     }
 
-    private fun getCurrentLocation() {
+    private fun initCurrentLocation() {
         viewModelScope.launch {
             val location = database.getCurrentLocation()
-            if (location != null) {
-                Timber.i("${location}")
-                _currentLocation.value = location
-                return@launch
+            if (location == null) {
+                _notification.value = "Require position"
+            } else {
+                val setUp =
+                    OneCallApi.retrofitService.getCurrentWeatherByCityIDAsync(location.id, "en")
+                try {
+                    val temperatureUnit = settings.temperatureUnit ?: "Celsius"
+                    val result = setUp.await()
+                    location.city = result.city
+                    location.temperature = convertTemperature(result.main.temp, temperatureUnit)
+                    _currentLocation.value = location
+                    return@launch
+                } catch (t: Throwable) {
+                    Timber.i(t)
+                    _notification.value = t.message
+                }
             }
-            Timber.i("Require current location")
         }
     }
 
-    fun getCurrentLocationWeather(latitude: Double, longitude: Double) {
+//    fun getAllLocationsTemperature() {
+//        viewModelScope.launch {
+//            Timber.i("${locations.value}")
+//            _locations.value = getAllLocations()
+//            Timber.i("${locations.size}")
+//
+//            } else {
+//                for (location: Location in locations.value!!) {
+//                    val data = OneCallApi.retrofitService.getCurrentWeatherByCityID(location.id)
+//                    try {
+//                        val result = data.await()
+//                        location.temperature = result.main.temp
+//                    } catch (t: Throwable) {
+//                        _errorNotification.value = t.message
+//                    }
+//                    Timber.i("${location}")
+//                }
+//
+//                _currentLocation.value = locations.value!!.get(0)
+//         }
+//        }
+//    }
+
+    fun saveLocation(latitude: Double, longitude: Double) {
+        Timber.i("saveLocationInfo")
         viewModelScope.launch {
-            val lat = latitude
-            val lon = longitude
-            val getData = OneCallApi.retrofitService.getCurrentWeatherByCoordinatesAsync(lat, lon)
+            val language = settings.language ?: "en"
+            val setUp =
+                OneCallApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
+                    latitude, longitude, language
+                )
             try {
-                val result = getData.await()
+                val result = setUp.await()
                 val location = Location(
                     id = result.id,
                     longitude = longitude,
@@ -66,12 +113,12 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
                     city = result.city,
                     country = result.sys.country,
                     isCurrentLocation = 1,
-                    temp = result.main.temp
                 )
                 _currentLocation.value = location
                 insertLocation(location)
             } catch (t: Throwable) {
-                _errorNotification.value = t.message
+                Timber.i(t)
+                _notification.value = t.message
             }
         }
     }

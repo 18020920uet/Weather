@@ -32,7 +32,7 @@ data class Sys(
 )
 
 data class Main(
-    val temp: Double,
+    val temp: Double, // Default value: K
     @Json(name = "feels_like")
     val feelsLike: Double,
     @Json(name = "temp_min")

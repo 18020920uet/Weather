@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.example.weatherapp.home.HomeFragment"
         android:label="@string/home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_findLocationFragment"
             app:destination="@id/findLocationFragment"
@@ -36,7 +36,7 @@
         android:id="@+id/findLocationFragment"
         android:name="com.example.weatherapp.findlocation.FindLocationFragment"
         android:label="@string/find_location"
-        tools:layout="@layout/fragment_find_location" >
+        tools:layout="@layout/fragment_find_location">
         <action
             android:id="@+id/action_findLocationFragment_to_weatherFragment"
             app:destination="@id/weatherFragment"

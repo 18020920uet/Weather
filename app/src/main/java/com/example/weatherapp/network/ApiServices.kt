@@ -36,12 +36,14 @@ interface OneCallApiService {
     fun getCurrentWeatherByCoordinatesAsync(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
+        @Query("lang") language: String,
         @Query("appid") APP_ID: String = API_KEY
     ): Deferred<CurrentWeatherApiResponse>
 
     @GET("data/2.5/weather")
-    fun getCurrentWeatherByCityID(
+    fun getCurrentWeatherByCityIDAsync(
         @Query("id") id: Int,
+        @Query("lang") language: String,
         @Query("appid") APP_ID: String = API_KEY
     ): Deferred<CurrentWeatherApiResponse>
 
