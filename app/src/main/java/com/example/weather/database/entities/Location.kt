@@ -1,4 +1,4 @@
-package com.example.weatherapp.database.entities
+package com.example.weather.database.entities
 
 
 import androidx.room.Entity

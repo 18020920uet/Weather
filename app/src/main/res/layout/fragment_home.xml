@@ -7,14 +7,14 @@
 
         <variable
             name="viewModel"
-            type="com.example.weatherapp.home.HomeViewModel" />
+            type="com.example.weather.home.HomeViewModel" />
 
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tool:context="com.example.weatherapp.home.HomeFragment">
+        tool:context="com.example.weather.home.HomeFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

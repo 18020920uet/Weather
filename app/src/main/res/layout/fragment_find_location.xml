@@ -3,7 +3,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tool:context="com.example.weatherapp.findlocation.FindLocationFragment">
+    tool:context="com.example.weather.findlocation.FindLocationFragment">
 
 
     <!-- TODO: Update find location fragment layout -->

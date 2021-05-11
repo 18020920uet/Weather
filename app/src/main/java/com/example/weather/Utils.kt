@@ -1,4 +1,4 @@
-package com.example.weatherapp
+package com.example.weather
 
 /**
  *  Convert temperature to setting's temperature unit

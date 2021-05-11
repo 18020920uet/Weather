@@ -1,14 +1,14 @@
-package com.example.weatherapp.home
+package com.example.weather.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.weatherapp.Settings
-import com.example.weatherapp.convertTemperature
-import com.example.weatherapp.database.entities.Location
-import com.example.weatherapp.database.entities.LocationDatabaseDAO
-import com.example.weatherapp.network.OneCallApi
+import com.example.weather.Settings
+import com.example.weather.convertTemperature
+import com.example.weather.database.entities.Location
+import com.example.weather.database.entities.LocationDatabaseDAO
+import com.example.weather.network.OneCallApi
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -44,7 +44,6 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
     }
 
     init {
-        Timber.i("$settings")
         Timber.i("onInit")
         initCurrentLocation()
     }
@@ -71,29 +70,6 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
             }
         }
     }
-
-//    fun getAllLocationsTemperature() {
-//        viewModelScope.launch {
-//            Timber.i("${locations.value}")
-//            _locations.value = getAllLocations()
-//            Timber.i("${locations.size}")
-//
-//            } else {
-//                for (location: Location in locations.value!!) {
-//                    val data = OneCallApi.retrofitService.getCurrentWeatherByCityID(location.id)
-//                    try {
-//                        val result = data.await()
-//                        location.temperature = result.main.temp
-//                    } catch (t: Throwable) {
-//                        _errorNotification.value = t.message
-//                    }
-//                    Timber.i("${location}")
-//                }
-//
-//                _currentLocation.value = locations.value!!.get(0)
-//         }
-//        }
-//    }
 
     fun saveLocation(latitude: Double, longitude: Double) {
         Timber.i("saveLocationInfo")

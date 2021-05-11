@@ -1,4 +1,4 @@
-package com.example.weatherapp.network
+package com.example.weather.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi

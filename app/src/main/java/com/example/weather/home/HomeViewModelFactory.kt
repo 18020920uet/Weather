@@ -1,9 +1,9 @@
-package com.example.weatherapp.home
+package com.example.weather.home
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.weatherapp.database.entities.LocationDatabaseDAO
+import com.example.weather.database.entities.LocationDatabaseDAO
 
 class HomeViewModelFactory(
     private val dataSource: LocationDatabaseDAO,

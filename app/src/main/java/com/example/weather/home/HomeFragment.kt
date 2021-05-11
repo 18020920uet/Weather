@@ -1,4 +1,4 @@
-package com.example.weatherapp.home
+package com.example.weather.home
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -10,10 +10,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.weatherapp.R
-import com.example.weatherapp.Settings
-import com.example.weatherapp.database.WeatherAppDatabase
-import com.example.weatherapp.databinding.FragmentHomeBinding
+import com.example.weather.R
+import com.example.weather.Settings
+import com.example.weather.database.WeatherAppDatabase
+import com.example.weather.databinding.FragmentHomeBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest

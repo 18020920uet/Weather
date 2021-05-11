@@ -1,4 +1,4 @@
-package com.example.weatherapp
+package com.example.weather
 
 data class Settings(
     var temperatureUnit: String? = "Celsius", // Celsius - Kelvin - Fahrenheit

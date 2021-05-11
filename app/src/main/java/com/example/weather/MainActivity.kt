@@ -1,4 +1,4 @@
-package com.example.weatherapp
+package com.example.weather
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +9,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weather.databinding.ActivityMainBinding
 
 const val TEMPERATURE_UNIT_KEY = "TEMPERATURE_UNIT"
 const val SPEED_UNIT_KEY = "SPEED_UNIT"
