@@ -13,7 +13,7 @@ data class Location(
     var timeZoneOffSet: Long = 0L,
     var city: String,
     var country: String,
-    var temp: Double,
-    var lastUpdated: Long = System.currentTimeMillis(),
-    var isCurrentLocation: Int
+    var temperature: Int = 0,
+    var isCurrentLocation: Int,
+    var createdTime: Long = System.currentTimeMillis()
 )

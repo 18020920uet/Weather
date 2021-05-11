@@ -4,7 +4,10 @@
     <string name="weather">Weather</string>
     <string name="home">Home</string>
     <string name="find_location">Find Location</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="about_us">About Us</string>
+    <string name="my_location_text">My Location</string>
+
+    <string name="sample_temperature">26℃</string>
+    <string name="sample_name">Hanoi</string>
 </resources>

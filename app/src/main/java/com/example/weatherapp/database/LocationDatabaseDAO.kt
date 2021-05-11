@@ -14,7 +14,7 @@ interface LocationDatabaseDAO {
     @Delete
     suspend fun delete(location: Location)
 
-    @Query("SELECT * FROM locations WHERE isCurrentLocation = 0 ORDER BY id ASC")
+    @Query("SELECT * FROM locations ORDER BY createdTime ASC")
     fun getLocations(): LiveData<List<Location>>
 
     @Query("SELECT * FROM locations WHERE isCurrentLocation = 1")
