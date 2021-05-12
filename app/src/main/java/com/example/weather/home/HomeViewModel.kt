@@ -31,6 +31,18 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
         _notification.value = notification
     }
 
+    private var _navigateTo = MutableLiveData<String>()
+    val navigateTo: LiveData<String>
+        get() = _navigateTo
+
+    fun navigateToWeatherFragment() {
+        _navigateTo.value = "WeatherFragment"
+    }
+
+    fun onNavigateComplete() {
+        _navigateTo.value = ""
+    }
+
     var settings: Settings = Settings()
 
     private var viewModelJob = Job()
@@ -75,6 +87,8 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
         Timber.i("saveLocationInfo")
         viewModelScope.launch {
             val language = settings.language ?: "en"
+            val temperatureUnit = settings.temperatureUnit ?: "Celsius"
+
             val setUp =
                 OneCallApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
                     latitude, longitude, language
@@ -89,6 +103,7 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
                     city = result.city,
                     country = result.sys.country,
                     isCurrentLocation = 1,
+                    temperature = convertTemperature(result.main.temp, temperatureUnit)
                 )
                 _currentLocation.value = location
                 insertLocation(location)
