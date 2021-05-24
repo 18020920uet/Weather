@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeatherApp</string>
+    <string name="app_name">Weather</string>
     <string name="setting">Setting</string>
     <string name="weather">Weather</string>
     <string name="home">Home</string>
@@ -10,4 +10,25 @@
 
     <string name="sample_temperature">26℃</string>
     <string name="sample_name">Hanoi</string>
+    <string name="Detail">Detail</string>
+    <string name="require_internet_connection">Require Internet Connection</string>
+    <string name="wifi_icon_description">A wifi icon</string>
+    <string name="weather_icon_description">Weather icon</string>
+    <string name="daily_weather_icon">Daily Weather Icon</string>
+    <string name="maximum_temperature_text">Highest temperature</string>
+    <string name="minimum_temperature_text">Lowest temperature</string>
+    <string name="sunrise_text">Sunrise</string>
+    <string name="sunset_text">Sunset</string>
+    <string name="humidity_text">Humidity</string>
+    <string name="wind_text">Wind</string>
+    <string name="pressure_text">Pressure</string>
+    <string name="visibility_text">Visibility</string>
+    <string name="uv_index_text">UV Index</string>
+    <string name="visibility_formatted">%d km</string>
+    <string name="humidity_formatted">%d</string>
+    <string name="share_text">Share</string>
+    <string name="Watch">Watch</string>
+    <string name="Unwatch">Unwatch</string>
+
+
 </resources>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.weatherapp.home.HomeFragment"
+        android:name="com.example.weather.home.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
         <action
@@ -16,36 +16,56 @@
             app:popUpTo="@id/homeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_weatherFragment"
-            app:destination="@id/weatherFragment"
+            app:destination="@id/detailFragment"
             app:popUpTo="@id/homeFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/aboutUsFragment"
-        android:name="com.example.weatherapp.aboutus.AboutUsFragment"
+        android:name="com.example.weather.aboutus.AboutUsFragment"
         android:label="@string/about_us"
         tools:layout="@layout/fragment_about_us" />
 
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.example.weatherapp.setting.SettingFragment"
+        android:name="com.example.weather.setting.SettingFragment"
         android:label="@string/setting"
         tools:layout="@layout/fragment_setting" />
 
     <fragment
         android:id="@+id/findLocationFragment"
-        android:name="com.example.weatherapp.findlocation.FindLocationFragment"
+        android:name="com.example.weather.findlocation.FindLocationFragment"
         android:label="@string/find_location"
         tools:layout="@layout/fragment_find_location">
         <action
             android:id="@+id/action_findLocationFragment_to_weatherFragment"
-            app:destination="@id/weatherFragment"
+            app:destination="@id/detailFragment"
             app:popUpTo="@id/findLocationFragment" />
     </fragment>
     <fragment
-        android:id="@+id/weatherFragment"
-        android:name="com.example.weatherapp.weather.WeatherFragment"
-        android:label="@string/setting"
-        tools:layout="@layout/fragment_weather" />
+        android:id="@+id/detailFragment"
+        android:name="com.example.weather.detail.DetailFragment"
+        android:label="@string/Detail"
+        tools:layout="@layout/fragment_detail">
+        <action
+            android:id="@+id/action_detailFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="latitude"
+            app:argType="float" />
+        <argument
+            android:name="longitude"
+            app:argType="float" />
+        <argument
+            android:name="locationName"
+            app:argType="string" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/disconnectedFragment"
+        android:name="com.example.weather.disconnected.DisconnectedFragment"
+        tools:layout="@layout/fragment_disconnected" />
 
 </navigation>

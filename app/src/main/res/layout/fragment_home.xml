@@ -5,22 +5,25 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
-            type="com.example.weatherapp.home.HomeViewModel" />
+            type="com.example.weather.home.HomeViewModel" />
 
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tool:context="com.example.weatherapp.home.HomeFragment">
+        tool:context="com.example.weather.home.HomeFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:background="#938A8A"
-            android:visibility="@{viewModel.currentLocation != null ? 1 : 2}">
+            android:onClick="@{() -> viewModel.navigateToWeatherFragment()}"
+            android:visibility="@{viewModel.currentLocation != null ? View.VISIBLE : View.GONE}">
 
             <TextView
                 android:id="@+id/current_location_name"
