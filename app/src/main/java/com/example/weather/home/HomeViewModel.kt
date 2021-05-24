@@ -4,16 +4,18 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.weather.Settings
 import com.example.weather.convertTemperature
 import com.example.weather.database.entities.Location
 import com.example.weather.database.entities.LocationDatabaseDAO
 import com.example.weather.network.OneCallApi
+import com.example.weather.setting.Settings
 import kotlinx.coroutines.*
 import timber.log.Timber
 
 class HomeViewModel(val database: LocationDatabaseDAO, application: Application) :
     AndroidViewModel(application) {
+
+    var lastUpdated: Long = 0L
 
     private var _currentLocation = MutableLiveData<Location?>()
     val currentLocation: LiveData<Location?>
@@ -48,8 +50,6 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
     private var viewModelJob = Job()
     private var viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-//    var locations = database.getLocations()
-
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
@@ -57,29 +57,42 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
 
     init {
         Timber.i("onInit")
-        initCurrentLocation()
+        getCurrentLocation()
     }
 
-    private fun initCurrentLocation() {
+    private fun getCurrentLocation() {
         viewModelScope.launch {
             val location = database.getCurrentLocation()
             if (location == null) {
                 _notification.value = "Require position"
             } else {
-                val setUp =
-                    OneCallApi.retrofitService.getCurrentWeatherByCityIDAsync(location.id, "en")
-                try {
-                    val temperatureUnit = settings.temperatureUnit ?: "Celsius"
-                    val result = setUp.await()
-                    location.city = result.city
-                    location.temperature = convertTemperature(result.main.temp, temperatureUnit)
-                    _currentLocation.value = location
-                    return@launch
-                } catch (t: Throwable) {
-                    Timber.i(t)
-                    _notification.value = t.message
-                }
+                getCurrentLocationWeatherInformation(location)
             }
+        }
+    }
+
+    fun reload() {
+        getCurrentLocation()
+    }
+
+    private suspend fun getCurrentLocationWeatherInformation(location: Location) {
+        val language = settings.language ?: "en"
+        val setUp =
+            OneCallApi.retrofitService.getCurrentWeatherByCityIDAsync(
+                location.id,
+                language
+            )
+        try {
+            val temperatureUnit = settings.temperatureUnit
+            Timber.i("${_currentLocation.value}")
+            val result = setUp.await()
+            location.city = result.city
+            location.temperature =
+                convertTemperature(result.main.temp, temperatureUnit)
+            _currentLocation.value = location
+            lastUpdated = System.currentTimeMillis()
+        } catch (t: Throwable) {
+            _notification.value = "Need reload"
         }
     }
 
@@ -87,7 +100,7 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
         Timber.i("saveLocationInfo")
         viewModelScope.launch {
             val language = settings.language ?: "en"
-            val temperatureUnit = settings.temperatureUnit ?: "Celsius"
+            val temperatureUnit = settings.temperatureUnit
 
             val setUp =
                 OneCallApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
@@ -108,7 +121,6 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
                 _currentLocation.value = location
                 insertLocation(location)
             } catch (t: Throwable) {
-                Timber.i(t)
                 _notification.value = t.message
             }
         }

@@ -11,9 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.weather.R
-import com.example.weather.Settings
 import com.example.weather.database.WeatherAppDatabase
 import com.example.weather.databinding.FragmentHomeBinding
+import com.example.weather.setting.Settings
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -21,8 +21,9 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
-class HomeFragment : Fragment() {
+const val ONE_HOUR_MILLISECONDS = 3600000
 
+class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -48,31 +49,47 @@ class HomeFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-//        viewModel.setCurrentLocationEvent.observe(viewLifecycleOwner, { status ->
-//            status?.let {
-//                if (ActivityCompat.checkSelfPermission(context!!, aflPermission) != 0
-//                    && ActivityCompat.checkSelfPermission(context!!, aclPermission) != 0
-//                ) {
-//                    requirePermissions()
-//                }
-//            }
-//        })
-
-        viewModel.notification.observe(viewLifecycleOwner, { message ->
-            message?.let {
-                if (message != "") {
-                    if (message == "Require position") {
-                        Snackbar.make(getViewContent(), message, Snackbar.LENGTH_INDEFINITE)
-                            .setAction("Set", { preSetPosition() })
-                            .show()
+        viewModel.navigateTo.observe(viewLifecycleOwner, { fragmentName ->
+            when (fragmentName) {
+                "WeatherFragment" -> {
+                    viewModel.currentLocation.value?.let {
+                        findNavController()
+                            .navigate(
+                                HomeFragmentDirections.actionHomeFragmentToWeatherFragment(
+                                    it.latitude.toFloat(),
+                                    it.longitude.toFloat(),
+                                    it.city,
+                                    it.id
+                                )
+                            )
                     }
-                } else {
-                    Snackbar.make(getViewContent(), message, Snackbar.LENGTH_SHORT).show()
-                    viewModel.onShowNotificationComplete()
+                    viewModel.onNavigateComplete()
                 }
-
+                "" -> Timber.i("HomeFragment")
+                else -> viewModel.setNotification("Unknown fragment: $fragmentName")
             }
         })
+
+        viewModel.notification.observe(
+            viewLifecycleOwner,
+            { message ->
+                message?.let {
+                    if (message != "") {
+                        if (message == "Require position") {
+                            Snackbar.make(getViewContent(), message, Snackbar.LENGTH_INDEFINITE)
+                                .setAction("Set") { preSetPosition() }
+                                .show()
+                        } else if (message == "Need reload") {
+                            Snackbar.make(getViewContent(), message, Snackbar.LENGTH_INDEFINITE)
+                                .setAction("Reload") { viewModel.reload() }
+                                .show()
+                        }
+                    } else {
+                        Snackbar.make(getViewContent(), message, Snackbar.LENGTH_SHORT).show()
+                        viewModel.onShowNotificationComplete()
+                    }
+                }
+            })
 
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)
@@ -81,7 +98,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getViewContent(): View {
-        return activity!!.findViewById(android.R.id.content)
+        return requireActivity().findViewById(android.R.id.content)
     }
 
     private fun requirePermissions() {
@@ -102,12 +119,13 @@ class HomeFragment : Fragment() {
 
     private fun setPosition() {
         try {
-            if (ActivityCompat.checkSelfPermission(context!!, aflPermission)
+            if (ActivityCompat.checkSelfPermission(requireContext(), aflPermission)
                 == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context!!, aclPermission)
+                ActivityCompat.checkSelfPermission(requireContext(), aclPermission)
                 == PackageManager.PERMISSION_GRANTED
             ) {
-                fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+                fusedLocationClient =
+                    LocationServices.getFusedLocationProviderClient(requireContext())
 
                 val locationRequest = LocationRequest.create().apply {
                     interval = 10000
@@ -156,4 +174,5 @@ class HomeFragment : Fragment() {
     fun loadSettings() {
         // TODO: Implement loadSettings
     }
+
 }

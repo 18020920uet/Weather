@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="information"
+            type="com.example.weather.detail.CurrentWeatherInformation" />
+
+        <variable
+            name="settings"
+            type="com.example.weather.setting.Settings" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#D1FFFB">
+
+        <TextView
+            android:id="@+id/maximum_temperature_text"
+            style="@style/informationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/maximum_temperature_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.001" />
+
+        <TextView
+            android:id="@+id/maximum_temperature_value"
+            temperature="@{information.maxTemperature}"
+            temperatureUnit="@{settings.temperatureUnit}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/maximum_temperature_text"
+            app:layout_constraintTop_toBottomOf="@+id/maximum_temperature_text"
+            tool:text="36℃" />
+
+        <TextView
+            android:id="@+id/minimum_temperature_text"
+            style="@style/informationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="45dp"
+            android:text="@string/minimum_temperature_text"
+            app:layout_constraintBottom_toBottomOf="@+id/maximum_temperature_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.963"
+            app:layout_constraintStart_toEndOf="@+id/maximum_temperature_text"
+            app:layout_constraintTop_toTopOf="@+id/maximum_temperature_text"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/minimum_temperature_value"
+            temperature="@{information.minTemperature}"
+            temperatureUnit="@{settings.temperatureUnit}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/minimum_temperature_text"
+            app:layout_constraintTop_toBottomOf="@+id/minimum_temperature_text"
+            app:layout_constraintVertical_bias="0.05"
+            tool:text="30℃" />
+
+
+        <TextView
+            android:id="@+id/sunset_text"
+            style="@style/informationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sunrise_text"
+            app:layout_constraintStart_toStartOf="@+id/maximum_temperature_value"
+            app:layout_constraintTop_toBottomOf="@+id/maximum_temperature_value" />
+
+        <TextView
+            android:id="@+id/sunrise_value"
+            time="@{information.sunrise}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/sunset_text"
+            app:layout_constraintTop_toBottomOf="@+id/sunset_text"
+            tool:text="05:00" />
+
+        <TextView
+            android:id="@+id/sunrise_text"
+            style="@style/informationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sunset_text"
+            app:layout_constraintStart_toStartOf="@+id/minimum_temperature_value"
+            app:layout_constraintTop_toBottomOf="@+id/minimum_temperature_value" />
+
+        <TextView
+            android:id="@+id/sunset_value"
+            time="@{information.sunset}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/sunrise_text"
+            app:layout_constraintTop_toBottomOf="@+id/sunrise_text"
+            tool:text="18:00" />
+
+        <TextView
+            android:id="@+id/probability_of_precipitation_text"
+            style="@style/informationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{information.chanceOfSnow != null ? "Chance of snow (this hour)" : "Chance of rain (this hour)"}'
+            app:layout_constraintStart_toStartOf="@+id/sunset_text"
+            app:layout_constraintTop_toBottomOf="@+id/sunrise_value"
+            tool:text="Chance of rain (this hour)" />
+
+        <TextView
+            android:id="@+id/probability_of_precipitation_value"
+            chanceOfRain="@{information.chanceOfRain}"
+            chanceOfSnow="@{information.chanceOfSnow}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/probability_of_precipitation_text"
+            app:layout_constraintTop_toBottomOf="@+id/probability_of_precipitation_text"
+            tool:text="30%" />
+
+        <TextView
+            android:id="@+id/textView4"
+            style="@style/informationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/humidity_text"
+            app:layout_constraintStart_toStartOf="@+id/sunset_value"
+            app:layout_constraintTop_toBottomOf="@+id/sunset_value" />
+
+        <TextView
+            android:id="@+id/humidity_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{String.valueOf(information.humidity) + "%"}'
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            tool:text="30%" />
+
+        <TextView
+            android:id="@+id/wind_text"
+            style="@style/informationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wind_text"
+            app:layout_constraintStart_toStartOf="@+id/probability_of_precipitation_value"
+            app:layout_constraintTop_toBottomOf="@+id/humidity_value" />
+
+        <TextView
+            android:id="@+id/wind_value"
+            speedUnit="@{settings.speedUnit}"
+            windDegrees="@{information.windDegrees}"
+            windSpeed="@{information.windSpeed}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/wind_text"
+            app:layout_constraintTop_toBottomOf="@+id/wind_text"
+            tool:text="NNE 3.66 km/h" />
+
+        <TextView
+            android:id="@+id/pressure_text"
+            style="@style/informationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pressure_text"
+            app:layout_constraintStart_toStartOf="@+id/humidity_value"
+            app:layout_constraintTop_toBottomOf="@+id/humidity_value" />
+
+        <TextView
+            android:id="@+id/pressure_value"
+            pressure="@{information.pressure}"
+            pressureUnit="@{settings.pressureUnit}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/pressure_text"
+            app:layout_constraintTop_toBottomOf="@+id/pressure_text"
+            tool:text="1007 hPA" />
+
+        <TextView
+            android:id="@+id/visibility_text"
+            style="@style/informationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/visibility_text"
+            app:layout_constraintStart_toStartOf="@+id/pressure_value"
+            app:layout_constraintTop_toBottomOf="@+id/pressure_value" />
+
+        <TextView
+            android:id="@+id/visibility_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{String.valueOf((information.visibility / 1000)) + "km"}'
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/visibility_text"
+            app:layout_constraintTop_toBottomOf="@+id/visibility_text"
+            tool:text="10km" />
+
+        <TextView
+            android:id="@+id/uv_index_text"
+            style="@style/informationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/uv_index_text"
+            app:layout_constraintStart_toStartOf="@+id/wind_value"
+            app:layout_constraintTop_toBottomOf="@+id/wind_value" />
+
+        <TextView
+            android:id="@+id/uv_index_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(information.uvi)}"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/uv_index_text"
+            app:layout_constraintTop_toBottomOf="@+id/uv_index_text"
+            tool:text="2.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

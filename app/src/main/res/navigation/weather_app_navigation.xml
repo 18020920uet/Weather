@@ -16,7 +16,7 @@
             app:popUpTo="@id/homeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_weatherFragment"
-            app:destination="@id/weatherFragment"
+            app:destination="@id/detailFragment"
             app:popUpTo="@id/homeFragment" />
     </fragment>
 
@@ -39,13 +39,33 @@
         tools:layout="@layout/fragment_find_location">
         <action
             android:id="@+id/action_findLocationFragment_to_weatherFragment"
-            app:destination="@id/weatherFragment"
+            app:destination="@id/detailFragment"
             app:popUpTo="@id/findLocationFragment" />
     </fragment>
     <fragment
-        android:id="@+id/weatherFragment"
-        android:name="com.example.weather.weather.WeatherFragment"
-        android:label="@string/setting"
-        tools:layout="@layout/fragment_weather" />
+        android:id="@+id/detailFragment"
+        android:name="com.example.weather.detail.DetailFragment"
+        android:label="@string/Detail"
+        tools:layout="@layout/fragment_detail">
+        <action
+            android:id="@+id/action_detailFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="latitude"
+            app:argType="float" />
+        <argument
+            android:name="longitude"
+            app:argType="float" />
+        <argument
+            android:name="locationName"
+            app:argType="string" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/disconnectedFragment"
+        android:name="com.example.weather.disconnected.DisconnectedFragment"
+        tools:layout="@layout/fragment_disconnected" />
 
 </navigation>

@@ -4,7 +4,6 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -26,11 +25,13 @@ private val retrofit = Retrofit.Builder()
 
 interface OneCallApiService {
     @GET("/data/2.5/onecall")
-    fun getWeatherDetail(
+    fun getWeatherDeatilByCoordinatesAsync(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
-        @Query("appid") APP_ID: String = API_KEY
-    ): Call<String>
+        @Query("lang") language: String,
+        @Query("appid") APP_ID: String = API_KEY,
+        @Query("exclude") exclude: String = "minutely,alerts"
+    ): Deferred<WeatherDetailResponse>
 
     @GET("data/2.5/weather")
     fun getCurrentWeatherByCoordinatesAsync(
