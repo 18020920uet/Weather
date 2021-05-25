@@ -50,16 +50,20 @@ class HourlyWeatherInformationAdapter() :
 
             weatherIcon.setImageResource(
                 when (item.icon) {
-                    "cloud" -> R.drawable.cloud
+                    "mist_day" -> R.drawable.mist_day
+                    "day" -> R.drawable.day
+                    "cloudy_day" -> R.drawable.cloudy_day
                     "thunderstorm" -> R.drawable.thunderstorm
-                    "drizzle" -> R.drawable.mist
                     "rain" -> R.drawable.rain
                     "snow" -> R.drawable.snow
-                    "mist" -> R.drawable.mist
-                    "clear" -> R.drawable.clear
+
                     "sunset" -> R.drawable.sunset
                     "sunrise" -> R.drawable.sunrise
-                    else -> R.drawable.clear
+
+                    "mist_night" -> R.drawable.mist_night
+                    "cloudy_night" -> R.drawable.cloudy_night
+                    "night" -> R.drawable.night
+                    else -> R.drawable.day
                 }
             )
         }

@@ -26,11 +26,11 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="160dp"
-            android:contentDescription="@string/daily_weather_icon"
+            android:contentDescription="@string/resource_source"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/cloud" />
+            tools:src="@drawable/cloudy_day" />
 
         <TextView
             android:id="@+id/daily_pop"
