@@ -129,18 +129,20 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
 
         val startTime = (System.currentTimeMillis() / 1000).toInt()
         val endTime = (System.currentTimeMillis() / 1000).toInt() + 86400
-        val sunSetMillis = response.currentWeatherDetail.sunset * 1000
 
+        val currentTime = (System.currentTimeMillis() / 1000)
+        val sunSet = response.currentWeatherDetail.sunset
+        val sunRise = response.currentWeatherDetail.sunrise
 
         val moment = HourlyWeatherInformation(
-            datetime = (System.currentTimeMillis() / 1000),
+            datetime = currentTime,
             type = TimeStage.Now,
             chanceOfRain = null,
             chanceOfSnow = null,
             temperature = null,
             icon = when {
-                System.currentTimeMillis() < sunSetMillis -> "sunrise"
-                else -> "sunset"
+                currentTime in sunRise..sunSet -> "day"
+                else -> "night"
             }
         )
 
@@ -192,15 +194,29 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
                 chanceOfRain = null
             }
 
-            val icon = when (it.weather[0].id) {
-                in 200..232 -> "thunderstorm"
-                in 300..321 -> "drizzle"
-                in 500..531 -> "rain"
-                in 600..622 -> "snow"
-                in 700..781 -> "mist"
-                800 -> "clear"
-                else -> "cloud"
+            val icon: String
+            if (it.datetime < todaySunrise.datetime || it.datetime >= todaySunset.datetime && it.datetime < tomorrowSunrise.datetime) {
+                icon = when (it.weather[0].id) {
+                    in 200..232 -> "thunderstorm"
+                    in 300..321 -> "mist_night"
+                    in 500..531 -> "rain"
+                    in 600..622 -> "snow"
+                    in 700..781 -> "mist_night"
+                    800 -> "night"
+                    else -> "cloudy_night"
+                }
+            } else {
+                icon = when (it.weather[0].id) {
+                    in 200..232 -> "thunderstorm"
+                    in 300..321 -> "mist_day"
+                    in 500..531 -> "rain"
+                    in 600..622 -> "snow"
+                    in 700..781 -> "mist_day"
+                    800 -> "day"
+                    else -> "cloudy_day"
+                }
             }
+
 
             val temperature = convertTemperature(it.temp, settings.temperatureUnit)
 
@@ -242,12 +258,12 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
 
             val icon = when (it.weather[0].id) {
                 in 200..232 -> "thunderstorm"
-                in 300..321 -> "drizzle"
+                in 300..321 -> "mist_day"
                 in 500..531 -> "rain"
                 in 600..622 -> "snow"
-                in 700..781 -> "mist"
-                800 -> "clear"
-                else -> "cloud"
+                in 700..781 -> "mist_day"
+                800 -> "day"
+                else -> "cloudy_day"
             }
 
             val temperatureMax =

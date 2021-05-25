@@ -24,11 +24,63 @@
     <string name="pressure_text">Pressure</string>
     <string name="visibility_text">Visibility</string>
     <string name="uv_index_text">UV Index</string>
-    <string name="visibility_formatted">%d km</string>
-    <string name="humidity_formatted">%d</string>
     <string name="share_text">Share</string>
     <string name="Watch">Watch</string>
     <string name="Unwatch">Unwatch</string>
+
+    <string name="mission_text">Mục đích của app</string>
+    <string name="mission_content">
+        <li>Mang lại trải nghiệm tiện ích.</li>\n
+        <li>Cung cấp thông tin thời tiết kịp thời.</li>\n
+        <li>Dự báo và cảnh báo để biết trước được thời tiết.</li>\n
+        <li>Theo dõi, tổng hợp về tình hình khí hậu, thiên tai, xu thế biến đổi khí hậu trong khu vực.</li>
+    </string>
+    <string name="vision_text">Tầm nhìn của app</string>
+    <string name="vision_content">
+        <li>Sẵn sàng ứng phó với thời tiết.</li>\n
+        <li>Chủ động trong mọi hoạt động.</li>
+    </string>
+    <string name="who_we_are">Chúng tôi là</string>
+    <string name="who_we_are_text">APP đóng vai trò quan trọng trong việc cung cấp kịp thời thông tin thời tiết cho bạn.</string>
+    <string name="service">Dịch vụ</string>
+    <string name="function_introduce_content">
+        <li>Theo dõi thông tin thời tiết tại vị trí hiện tại.</li>\n
+        <li>Tìm kiếm một địa điểm để theo dõi.</li>\n
+        <li>Theo dõi thông tin thời tiết của một địa điểm.</li>\n
+        <li>Xem chi tiết thông tin thời tiết về một địa điểm:\n
+                + Thời điểm hiện tại\n
+                + 24 tiếng tiếp theo\n
+                + 7 ngày tiếp theo
+        </li>\n
+        <li>Chia sẻ thông tin thời tiết với bạn bè.</li>\n
+        <li>Widget trên màn hình chính của máy.</li>\n
+    </string>
+
+    <string name="app_introduce_text">Giới thiệu chi tiết về app</string>
+
+    <string name="app_information_content">
+        <li>Link github: <a href="https://github.com/inFngNam/WeatherAppKotlin">Weather</a></li>\n
+        <li>Version: 0.0.1</li>\n
+        <li>Nguồn cảm hứng: Weather của ios.</li>\n
+        <li>Api/dữ liệu thời tiết: <a href="https://openweathermap.org/">OpenWeatherMap.</a></li>\n
+        <li>Icon pack: Weather của <a href="https://www.flaticon.com/packs/weather-82?k=1621884178942">Freeplk.</a></li>
+    </string>
+
+    <string name="inforGroup">Thông tin nhóm</string>
+    <string name="development_information_content">
+        <ul>Nhóm gồm 3 thành viên\n
+            <li><a href="https://www.facebook.com/toan.vuongthanh.904">Vương Thành Toàn</a> -18021279</li>\n
+            <li><a href="https://www.facebook.com/oinfamous">Nguyễn Văn Nam</a> - 18020920</li>\n
+            <li><a href="https://www.facebook.com/cherrycherry21.vn">Trịnh Thị Thư</a> - 18021245</li>
+        </ul>
+    </string>
+
+    <string name="app_icon_image">App icon image</string>
+    <string name="show_app_images">Một vài hình ảnh của app</string>
+    <string name="sample_image">Sample Image</string>
+    <string name="function_introduce_text">Giới thiệu chức năng</string>
+    <string name="resource_source"><![CDATA[<div>Icons made by <a href=https://www.freepik.com title=Freepik>Freepik</a> from <a href=https://www.flaticon.com/ title=Flaticon>www.flaticon.com</a></div>]]></string>
+    <string name="development_information_text">Thông tin nhà phát triển</string>
 
 
 </resources>

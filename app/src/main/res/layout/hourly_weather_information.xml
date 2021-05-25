@@ -6,21 +6,21 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="100dp"
-        android:layout_height="150dp">
+        android:layout_width="110dp"
+        android:layout_height="154dp">
 
         <ImageView
             android:id="@+id/hourly_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/weather_icon_description"
-            tools:src="@drawable/cloud" />
+            tools:src="@drawable/cloudy_day" />
 
         <TextView
             android:id="@+id/hourly_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toTopOf="@+id/hourly_temperature"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,10 +32,9 @@
             android:id="@+id/hourly_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.507"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
