@@ -84,7 +84,6 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
             )
         try {
             val temperatureUnit = settings.temperatureUnit
-            Timber.i("${_currentLocation.value}")
             val result = setUp.await()
             location.city = result.city
             location.temperature =

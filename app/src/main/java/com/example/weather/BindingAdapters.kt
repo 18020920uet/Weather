@@ -21,10 +21,7 @@ fun TextView.setFormattedTime(timestamp: Long) = timestamp.let {
 
 @SuppressLint("SetTextI18n")
 @BindingAdapter(value = ["chanceOfRain", "chanceOfSnow"], requireAll = true)
-fun TextView.setProbabilityOfPrecipitation(
-    chanceOfRain: Int?,
-    chanceOfSnow: Int?,
-) {
+fun TextView.setProbabilityOfPrecipitation(chanceOfRain: Int?, chanceOfSnow: Int?) {
     text = if (chanceOfSnow != null) {
         "$chanceOfSnow%"
     } else {

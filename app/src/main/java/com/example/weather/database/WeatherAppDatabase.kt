@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.weather.database.entities.Location
 import com.example.weather.database.entities.LocationDatabaseDAO
 
-@Database(entities = [Location::class], version = 7, exportSchema = false)
+@Database(entities = [Location::class], version = 9, exportSchema = false)
 abstract class WeatherAppDatabase : RoomDatabase() {
 
     abstract val locationDatabaseDAO: LocationDatabaseDAO

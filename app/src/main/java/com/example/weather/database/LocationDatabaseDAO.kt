@@ -19,4 +19,7 @@ interface LocationDatabaseDAO {
 
     @Query("SELECT * FROM locations WHERE isCurrentLocation = 1")
     suspend fun getCurrentLocation(): Location?
+
+    @Query("SELECT * FROM locations WHERE id = :locationId AND isCurrentLocation = 0")
+    suspend fun getLocation(locationId: Int): Location?
 }
