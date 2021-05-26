@@ -28,6 +28,7 @@ class DetailFragment : Fragment() {
     private var longitude: Double = 0.0
     private var locationName: String = ""
     private var locationId: Int = 0
+    private var isLocationWatched: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,10 +54,13 @@ class DetailFragment : Fragment() {
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(DetailViewModel::class.java)
 
+        viewModel.getWatchStatus(locationId)
         viewModel.getLocationWeatherInformation(latitude, longitude, locationName)
-        binding.viewModel = viewModel
 
-        binding.lifecycleOwner = this
+        viewModel.location.observe(viewLifecycleOwner, {
+            isLocationWatched = it != null
+            activity?.invalidateOptionsMenu()
+        })
 
         val hourlyAdapter = HourlyWeatherInformationAdapter()
         hourlyAdapter.temperatureUnit = viewModel.settings.temperatureUnit
@@ -76,8 +80,9 @@ class DetailFragment : Fragment() {
             }
         })
 
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
         setHasOptionsMenu(true)
-
         return binding.root
     }
 
@@ -94,13 +99,14 @@ class DetailFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.share -> share()
+            R.id.watch_intent -> binding.viewModel!!.handleWatchIntent()
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         val item = menu.findItem(R.id.watch_intent)
-        if (item.title == "Watch") {
+        if (isLocationWatched) {
             item.title = "Unwatch"
         } else {
             item.title = "Watch"
@@ -117,7 +123,5 @@ class DetailFragment : Fragment() {
         return shareIntent
     }
 
-    private fun share() {
-        startActivity(shareIntent())
-    }
+    private fun share() = startActivity(shareIntent())
 }
