@@ -82,5 +82,25 @@
     <string name="resource_source"><![CDATA[<div>Icons made by <a href=https://www.freepik.com title=Freepik>Freepik</a> from <a href=https://www.flaticon.com/ title=Flaticon>www.flaticon.com</a></div>]]></string>
     <string name="development_information_text">Thông tin nhà phát triển</string>
 
+    //setting
+    //C,F,K
+    <string name="temperature">Nhiệt độ</string>
+    <string name="C">°C</string>
+    <string name="F">°F</string>
+    <string name="K">°K</string>
+    //m/h, m/s, km/h
+    <string name="speedOfWinds">Vận tốc gió</string>
+    <string name="mh">m/h</string>
+    <string name="ms">m/s</string>
+    <string name="kmh">km/h</string>
+    //Pa, atm, psi
+    <string name="pressure">Áp suất</string>
+    <string name="Pa">Pa</string>
+    <string name="atm">atm</string>
+    <string name="psi">psi</string>
+    //
+    <string name="useLocation">Sử dụng vị trí hiện tại của bạn</string>
+    <string name="toggleButton">Bật</string>
+
 
 </resources>
