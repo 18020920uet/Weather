@@ -7,12 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import com.example.weather.convertPressure
 import com.example.weather.convertSpeed
 import com.example.weather.convertTemperature
+import com.example.weather.database.daos.LocationDatabaseDAO
 import com.example.weather.database.entities.Location
-import com.example.weather.database.entities.LocationDatabaseDAO
 import com.example.weather.getTemperatureText
-import com.example.weather.network.Hourly
-import com.example.weather.network.OneCallApi
-import com.example.weather.network.WeatherDetailResponse
+import com.example.weather.network.OpenWeatherApi
+import com.example.weather.network.responses.Hourly
+import com.example.weather.network.responses.WeatherDetailResponse
 import com.example.weather.setting.Settings
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -24,7 +24,6 @@ const val ONE_HOUR = 3600
 class DetailViewModel(val database: LocationDatabaseDAO, application: Application) :
     AndroidViewModel(application) {
 
-    private var locationId: Int = 0
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     var locationName: String = ""
@@ -36,6 +35,10 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
     private var _notification = MutableLiveData<String>()
     val notification: LiveData<String>
         get() = _notification
+
+    fun onShowNotificationComplete() {
+        _notification.value = ""
+    }
 
     private var _currentWeatherInformation = MutableLiveData<CurrentWeatherInformation>()
     val currentWeatherInformation: LiveData<CurrentWeatherInformation>
@@ -64,10 +67,11 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
         viewModelJob.cancel()
     }
 
-    fun getWatchStatus(id: Int) {
+    fun getWatchStatus(latitude: Double, longitude: Double) {
+        this.latitude = latitude
+        this.longitude = longitude
         viewModelScope.launch {
-            locationId = id
-            val location = getLocation(locationId)
+            val location = getLocation()
             _location.value = location
         }
     }
@@ -78,30 +82,29 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
         } else {
             unwatchLocation()
         }
-
     }
 
     private fun watchLocation(latitude: Double, longitude: Double) {
         viewModelScope.launch {
             val temperatureUnit = settings.temperatureUnit
             val setUp =
-                OneCallApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
+                OpenWeatherApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
                     latitude, longitude, "en"
                 )
             try {
                 val result = setUp.await()
                 val location = Location(
-                    id = result.id,
                     longitude = longitude,
                     latitude = latitude,
                     timeZoneOffSet = result.offSetTimezone,
-                    city = result.city,
+                    locationName = result.city,
                     country = result.sys.country,
                     isCurrentLocation = 0,
                     temperature = convertTemperature(result.main.temp, temperatureUnit)
                 )
                 insertLocation(location)
                 _location.value = location
+                _notification.value = "Location has been added to watch list"
             } catch (t: Throwable) {
                 _notification.value = t.message
             }
@@ -113,6 +116,7 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
             if (_location.value != null) {
                 deleteLocation(_location.value!!)
                 _location.value = null
+                _notification.value = "Location has been removed from watch list"
             }
         }
     }
@@ -123,9 +127,9 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
         }
     }
 
-    private suspend fun getLocation(locationId: Int): Location? {
+    private suspend fun getLocation(): Location? {
         return withContext(Dispatchers.IO) {
-            database.getLocation(locationId)
+            database.getLocation(latitude, longitude)
         }
     }
 
@@ -135,17 +139,13 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
         }
     }
 
-    fun getLocationWeatherInformation(
-        latitude: Double,
-        longitude: Double,
-        locationName: String
-    ) {
+    fun getLocationWeatherInformation(latitude: Double, longitude: Double, locationName: String) {
         this.locationName = locationName
         this.latitude = latitude
         this.longitude = longitude
         viewModelScope.launch {
             val setUp =
-                OneCallApi.retrofitService.getWeatherDeatilByCoordinatesAsync(
+                OpenWeatherApi.retrofitService.getWeatherDeatilByCoordinatesAsync(
                     latitude, longitude, "en"
                 )
             try {
@@ -212,9 +212,7 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
         )
     }
 
-    private fun parseListHourlyWeatherInformation(response: WeatherDetailResponse)
-            : List<HourlyWeatherInformation> {
-
+    private fun parseListHourlyWeatherInformation(response: WeatherDetailResponse): List<HourlyWeatherInformation> {
         val startTime = (System.currentTimeMillis() / 1000).toInt()
         val endTime = (System.currentTimeMillis() / 1000).toInt() + 86400
 
@@ -228,8 +226,8 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
             chanceOfRain = null,
             chanceOfSnow = null,
             temperature = null,
-            icon = when {
-                currentTime in sunRise..sunSet -> "day"
+            icon = when (currentTime) {
+                in sunRise..sunSet -> "day"
                 else -> "night"
             }
         )

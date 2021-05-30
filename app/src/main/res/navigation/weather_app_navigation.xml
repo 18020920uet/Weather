@@ -15,7 +15,7 @@
             app:destination="@id/findLocationFragment"
             app:popUpTo="@id/homeFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_weatherFragment"
+            android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment"
             app:popUpTo="@id/homeFragment" />
     </fragment>
@@ -38,10 +38,11 @@
         android:label="@string/find_location"
         tools:layout="@layout/fragment_find_location">
         <action
-            android:id="@+id/action_findLocationFragment_to_weatherFragment"
+            android:id="@+id/action_findLocationFragment_to_detailFragment"
             app:destination="@id/detailFragment"
             app:popUpTo="@id/findLocationFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.weather.detail.DetailFragment"
@@ -60,12 +61,12 @@
             android:name="locationName"
             app:argType="string" />
         <argument
-            android:name="id"
-            app:argType="integer" />
+            android:name="countryName"
+            app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/disconnectedFragment"
         android:name="com.example.weather.disconnected.DisconnectedFragment"
         tools:layout="@layout/fragment_disconnected" />
-
 </navigation>

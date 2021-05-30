@@ -11,11 +11,12 @@ import com.example.weather.R
 import com.example.weather.database.WeatherAppDatabase
 import com.example.weather.databinding.FragmentDetailBinding
 import com.example.weather.home.DetailViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 
 private const val LONGITUDE = "longitude"
 private const val LATITUDE = "latitude"
 private const val LOCATION_NAME = "locationName"
-private const val ID = "id"
+private const val COUNTRY_NAME = "countryName"
 
 /**
  * A simple [Fragment] subclass.
@@ -27,7 +28,7 @@ class DetailFragment : Fragment() {
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     private var locationName: String = ""
-    private var locationId: Int = 0
+    private var countryName: String = ""
     private var isLocationWatched: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +37,7 @@ class DetailFragment : Fragment() {
             latitude = it.getFloat(LATITUDE).toDouble()
             longitude = it.getFloat(LONGITUDE).toDouble()
             locationName = it.getString(LOCATION_NAME).toString()
-            locationId = it.getInt(ID)
+            countryName = it.getString(COUNTRY_NAME).toString()
         }
     }
 
@@ -54,7 +55,7 @@ class DetailFragment : Fragment() {
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(DetailViewModel::class.java)
 
-        viewModel.getWatchStatus(locationId)
+        viewModel.getWatchStatus(latitude, longitude)
         viewModel.getLocationWeatherInformation(latitude, longitude, locationName)
 
         viewModel.location.observe(viewLifecycleOwner, {
@@ -68,6 +69,15 @@ class DetailFragment : Fragment() {
         viewModel.listOfHourlyWeatherInformation.observe(viewLifecycleOwner, {
             it?.let {
                 hourlyAdapter.submitList(it)
+            }
+        })
+
+        viewModel.notification.observe(viewLifecycleOwner, { message ->
+            message?.let {
+                if (message != "") {
+                    Snackbar.make(getViewContent(), message, Snackbar.LENGTH_SHORT).show()
+                    viewModel.onShowNotificationComplete()
+                }
             }
         })
 
@@ -124,4 +134,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun share() = startActivity(shareIntent())
+
+    private fun getViewContent(): View = requireActivity().findViewById(android.R.id.content)
+
 }

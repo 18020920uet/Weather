@@ -51,15 +51,15 @@ class HomeFragment : Fragment() {
 
         viewModel.navigateTo.observe(viewLifecycleOwner, { fragmentName ->
             when (fragmentName) {
-                "WeatherFragment" -> {
+                "DetailFragment" -> {
                     viewModel.currentLocation.value?.let {
                         findNavController()
                             .navigate(
-                                HomeFragmentDirections.actionHomeFragmentToWeatherFragment(
+                                HomeFragmentDirections.actionHomeFragmentToDetailFragment(
                                     it.latitude.toFloat(),
                                     it.longitude.toFloat(),
-                                    it.city,
-                                    it.id
+                                    it.locationName,
+                                    it.country
                                 )
                             )
                     }
@@ -86,8 +86,8 @@ class HomeFragment : Fragment() {
                         }
                     } else {
                         Snackbar.make(getViewContent(), message, Snackbar.LENGTH_SHORT).show()
-                        viewModel.onShowNotificationComplete()
                     }
+                    viewModel.onShowNotificationComplete()
                 }
             })
 
@@ -107,7 +107,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.find_location_option_menu, menu)
+        inflater.inflate(R.menu.home_option_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

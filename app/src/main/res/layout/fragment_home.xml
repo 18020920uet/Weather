@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:background="#938A8A"
-            android:onClick="@{() -> viewModel.navigateToWeatherFragment()}"
+            android:onClick="@{() -> viewModel.navigateToDetailFragment()}"
             android:visibility="@{viewModel.currentLocation != null ? View.VISIBLE : View.GONE}">
 
             <TextView
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/chivo"
-                android:text="@{viewModel.currentLocation.city}"
+                android:text="@{viewModel.currentLocation.locationName}"
                 android:textColor="#0E0000"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/my_location_text"

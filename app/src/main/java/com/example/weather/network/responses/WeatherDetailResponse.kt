@@ -1,47 +1,6 @@
-package com.example.weather.network
+package com.example.weather.network.responses
 
 import com.squareup.moshi.Json
-
-data class CurrentWeatherApiResponse(
-    val id: Int,
-    @Json(name = "coord")
-    val coordinates: Coordinates,
-    @Json(name = "timezone")
-    val offSetTimezone: Long,
-    @Json(name = "name")
-    val city: String,
-    @Json(name = "sys")
-    val sys: Sys,
-    @Json(name = "main")
-    val main: Main
-)
-
-data class Coordinates(
-    @Json(name = "lat")
-    val latitude: Double,
-    @Json(name = "lon")
-    val longitude: Double
-)
-
-data class Sys(
-    val type: Int,
-    val country: String,
-    val id: Int,
-    val sunrise: Long,
-    val sunset: Long
-)
-
-data class Main(
-    val temp: Double, // Default value: K
-    @Json(name = "feels_like")
-    val feelsLike: Double,
-    @Json(name = "temp_min")
-    val tempMin: Double,
-    @Json(name = "temp_max")
-    val tempMax: Double,
-    val pressure: Double,
-    val humidity: Double
-)
 
 data class WeatherDetailResponse(
     @Json(name = "timezone_offset")
@@ -58,31 +17,6 @@ data class WeatherDetailResponse(
     val daily: List<Daily>
 )
 
-data class CurrentWeather(
-    @Json(name = "dt")
-    val datetime: Long,
-    val sunrise: Long,
-    val sunset: Long,
-    val temp: Double,
-    @Json(name = "feels_like")
-    val feelsLike: Double,
-    // Áp suất, đơn vị: hPa
-    val pressure: Double,
-    // Độ ẩm
-    val humidity: Double,
-    val uvi: Double,
-    // tỉ lệ % có mây
-    val clouds: Double,
-    // Đơn vị: meter
-    val visibility: Double,
-    @Json(name = "wind_speed")  // Đơn vị: metresPerSecond
-    val windSpeed: Double,
-    @Json(name = "wind_deg")
-    val windDegrees: Double,
-    @Json(name = "weather")
-    val weather: List<Weather>
-)
-
 data class Hourly(
     @Json(name = "dt")
     val datetime: Long,
@@ -95,11 +29,6 @@ data class Hourly(
     val pop: Double = 0.0,
     @Json(name = "weather")
     val weather: List<Weather>
-)
-
-data class Volume(
-    @Json(name = "1h")
-    val volume: Double,
 )
 
 data class Daily(
@@ -135,9 +64,39 @@ data class TemperatureDetail(
     val max: Double
 )
 
+data class Volume(
+    @Json(name = "1h")
+    val volume: Double
+)
+
 data class Weather(
     val id: Int,
     val main: String,
     val description: String,
     val icon: String
+)
+
+data class CurrentWeather(
+    @Json(name = "dt")
+    val datetime: Long,
+    val sunrise: Long,
+    val sunset: Long,
+    val temp: Double,
+    @Json(name = "feels_like")
+    val feelsLike: Double,
+    // Áp suất, đơn vị: hPa
+    val pressure: Double,
+    // Độ ẩm
+    val humidity: Double,
+    val uvi: Double,
+    // tỉ lệ % có mây
+    val clouds: Double,
+    // Đơn vị: meter
+    val visibility: Double,
+    @Json(name = "wind_speed")  // Đơn vị: metresPerSecond
+    val windSpeed: Double,
+    @Json(name = "wind_deg")
+    val windDegrees: Double,
+    @Json(name = "weather")
+    val weather: List<Weather>
 )

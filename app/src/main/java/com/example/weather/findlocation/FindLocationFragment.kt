@@ -1,60 +1,117 @@
 package com.example.weather.findlocation
 
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.inputmethod.InputMethodManager
+import android.widget.SearchView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.weather.R
+import com.example.weather.database.WeatherAppDatabase
+import com.example.weather.databinding.FragmentFindLocationBinding
+import com.google.android.material.snackbar.Snackbar
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FindLocationFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FindLocationFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var binding: FragmentFindLocationBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_find_location, container, false)
-    }
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_find_location, container, false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FindLocationFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FindLocationFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        val application = requireNotNull(this.activity).application
+
+        val dataSource = WeatherAppDatabase.getInstance(application).suggestLocationDatabaseDAO
+
+        val viewModelFactory = FindLocationViewModelFactory(dataSource, application)
+
+        val viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(FindLocationViewModel::class.java)
+
+        val suggestLocationAdapter = SuggestLocationAdapter(SuggestLocationListener {
+            viewModel.navigateToDetailFragment()
+            findNavController().navigate(
+                FindLocationFragmentDirections.actionFindLocationFragmentToDetailFragment(
+                    it.latitude.toFloat(),
+                    it.longitude.toFloat(),
+                    it.locationName,
+                    it.country
+                )
+            )
+            viewModel.onNavigateCompleted()
+        })
+
+        binding.listOfSuggestLocations.adapter = suggestLocationAdapter
+        viewModel.listOfSuggestLocations.observe(viewLifecycleOwner, {
+            it?.let {
+                suggestLocationAdapter.submitList(it)
+            }
+        })
+
+        val relatedNameLocationAdapter = RelatedNameLocationAdapter(RelatedNameLocationListener {
+            viewModel.navigateToDetailFragment()
+            findNavController().navigate(
+                FindLocationFragmentDirections.actionFindLocationFragmentToDetailFragment(
+                    it.latitude.toFloat(),
+                    it.longitude.toFloat(),
+                    it.name,
+                    it.country
+                )
+            )
+            viewModel.onNavigateCompleted()
+        })
+
+        binding.listOfRelatedNameLocations.adapter = relatedNameLocationAdapter
+        viewModel.listRelatedNameLocations.observe(viewLifecycleOwner, {
+            it?.let {
+                relatedNameLocationAdapter.submitList(it)
+            }
+        })
+
+        viewModel.notification.observe(viewLifecycleOwner, { message ->
+            message?.let {
+                if (it != "") {
+                    Snackbar.make(getViewContent(), it, Snackbar.LENGTH_LONG).show()
+                    viewModel.onShowNotificationComplete()
                 }
             }
+        })
+
+        binding.viewModel = viewModel
+        setHasOptionsMenu(true)
+        return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.find_location_option_menu, menu)
+        val searchView: SearchView = menu.findItem(R.id.search).actionView as SearchView
+        searchView.queryHint = "Search here..."
+        searchView.isSubmitButtonEnabled
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    binding.viewModel!!.findLocationByName(it)
+                    binding.resultText.visibility = View.VISIBLE
+                    val imm = context!!.getSystemService(Context.INPUT_METHOD_SERVICE)
+                    (imm as (InputMethodManager)).hideSoftInputFromWindow(view!!.windowToken, 0)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+    }
+
+    private fun getViewContent(): View {
+        return requireActivity().findViewById(android.R.id.content)
     }
 }

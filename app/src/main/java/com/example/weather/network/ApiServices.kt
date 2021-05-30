@@ -1,5 +1,8 @@
 package com.example.weather.network
 
+import com.example.weather.network.responses.CurrentWeatherApiResponse
+import com.example.weather.network.responses.RelatedNameLocation
+import com.example.weather.network.responses.WeatherDetailResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -24,7 +27,7 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface OneCallApiService {
-    @GET("/data/2.5/onecall")
+    @GET("data/2.5/onecall")
     fun getWeatherDeatilByCoordinatesAsync(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
@@ -48,9 +51,15 @@ interface OneCallApiService {
         @Query("appid") APP_ID: String = API_KEY
     ): Deferred<CurrentWeatherApiResponse>
 
+    @GET("geo/1.0/direct")
+    fun getLocationByNameAsync(
+        @Query("q") cityName: String,
+        @Query("limit") limit: Int = 10,
+        @Query("appid") APP_ID: String = API_KEY
+    ): Deferred<List<RelatedNameLocation>>
 }
 
-object OneCallApi {
+object OpenWeatherApi {
     val retrofitService: OneCallApiService by lazy {
         retrofit.create(OneCallApiService::class.java)
     }

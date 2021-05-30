@@ -5,9 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.weather.convertTemperature
+import com.example.weather.database.daos.LocationDatabaseDAO
 import com.example.weather.database.entities.Location
-import com.example.weather.database.entities.LocationDatabaseDAO
-import com.example.weather.network.OneCallApi
+import com.example.weather.network.OpenWeatherApi
 import com.example.weather.setting.Settings
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -37,8 +37,8 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
     val navigateTo: LiveData<String>
         get() = _navigateTo
 
-    fun navigateToWeatherFragment() {
-        _navigateTo.value = "WeatherFragment"
+    fun navigateToDetailFragment() {
+        _navigateTo.value = "DetailFragment"
     }
 
     fun onNavigateComplete() {
@@ -56,7 +56,6 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
     }
 
     init {
-        Timber.i("onInit")
         getCurrentLocation()
     }
 
@@ -71,21 +70,21 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
         }
     }
 
-    fun reload() {
-        getCurrentLocation()
-    }
+    fun reload() = getCurrentLocation()
+
 
     private suspend fun getCurrentLocationWeatherInformation(location: Location) {
         val language = settings.language ?: "en"
         val setUp =
-            OneCallApi.retrofitService.getCurrentWeatherByCityIDAsync(
-                location.id,
+            OpenWeatherApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
+                location.latitude,
+                location.longitude,
                 language
             )
         try {
             val temperatureUnit = settings.temperatureUnit
             val result = setUp.await()
-            location.city = result.city
+            location.locationName = result.city
             location.temperature =
                 convertTemperature(result.main.temp, temperatureUnit)
             _currentLocation.value = location
@@ -102,17 +101,16 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
             val temperatureUnit = settings.temperatureUnit
 
             val setUp =
-                OneCallApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
+                OpenWeatherApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
                     latitude, longitude, language
                 )
             try {
                 val result = setUp.await()
                 val location = Location(
-                    id = result.id,
                     longitude = longitude,
                     latitude = latitude,
                     timeZoneOffSet = result.offSetTimezone,
-                    city = result.city,
+                    locationName = result.city,
                     country = result.sys.country,
                     isCurrentLocation = 1,
                     temperature = convertTemperature(result.main.temp, temperatureUnit)
@@ -126,8 +124,6 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
     }
 
     private suspend fun insertLocation(location: Location) {
-        return withContext(Dispatchers.IO) {
-            database.insert(location)
-        }
+        return withContext(Dispatchers.IO) { database.insert(location) }
     }
 }

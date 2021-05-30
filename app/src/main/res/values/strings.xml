@@ -81,6 +81,9 @@
     <string name="function_introduce_text">Giới thiệu chức năng</string>
     <string name="resource_source"><![CDATA[<div>Icons made by <a href=https://www.freepik.com title=Freepik>Freepik</a> from <a href=https://www.flaticon.com/ title=Flaticon>www.flaticon.com</a></div>]]></string>
     <string name="development_information_text">Thông tin nhà phát triển</string>
+    <string name="search_icon">Search icon</string>
+    <string name="search">Search</string>
+    <string name="result_text">Result</string>
 
 
 </resources>
