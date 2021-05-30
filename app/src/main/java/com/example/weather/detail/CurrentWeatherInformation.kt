@@ -1,6 +1,6 @@
 package com.example.weather.detail
 
-import com.example.weather.network.Weather
+import com.example.weather.network.responses.Weather
 
 data class CurrentWeatherInformation(
     val locationName: String = "",

@@ -6,5 +6,5 @@ data class DailyWeatherInformation(
     val chanceOfSnow: Double?,
     val icon: String,
     val temperatureMax: Int,
-    val temperatureMin: Int,
+    val temperatureMin: Int
 )

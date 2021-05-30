@@ -15,7 +15,7 @@ import com.example.weather.setting.TemperatureUnit
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HourlyWeatherInformationAdapter() :
+class HourlyWeatherInformationAdapter :
     ListAdapter<HourlyWeatherInformation, HourlyWeatherInformationAdapter.ViewHolder>(
         HourlyWeatherInformationDiffCallback()
     ) {

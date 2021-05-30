@@ -1,11 +1,6 @@
 package com.example.weather.detail
 
-enum class TimeStage {
-    Now,
-    Normal,
-    Sunset,
-    Sunrise
-}
+enum class TimeStage { Now, Normal, Sunset, Sunrise }
 
 data class HourlyWeatherInformation(
     val temperature: Int?,

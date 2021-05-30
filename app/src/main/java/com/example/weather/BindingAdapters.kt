@@ -3,6 +3,7 @@ package com.example.weather
 import android.annotation.SuppressLint
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.example.weather.network.responses.RelatedNameLocation
 import com.example.weather.setting.PressureUnit
 import com.example.weather.setting.SpeedUnit
 import com.example.weather.setting.TemperatureUnit
@@ -58,4 +59,14 @@ fun TextView.setFormattedWind(windSpeed: Double, windDegrees: Double, speedUnit:
 @BindingAdapter(value = ["pressure", "pressureUnit"], requireAll = true)
 fun TextView.setFormattedPressure(pressure: Int, unit: PressureUnit) {
     text = getPressureText(pressure, unit)
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("relatedNameLocation")
+fun TextView.setRelatedNameLocation(relatedNameLocation: RelatedNameLocation) {
+    text = if (relatedNameLocation.state != null) {
+        "${relatedNameLocation.name}, ${relatedNameLocation.state}, ${relatedNameLocation.country}"
+    } else {
+        "${relatedNameLocation.name}, ${relatedNameLocation.country}"
+    }
 }

@@ -1,7 +1,8 @@
-package com.example.weather.database.entities
+package com.example.weather.database.daos
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.weather.database.entities.Location
 
 @Dao
 interface LocationDatabaseDAO {
@@ -20,6 +21,6 @@ interface LocationDatabaseDAO {
     @Query("SELECT * FROM locations WHERE isCurrentLocation = 1")
     suspend fun getCurrentLocation(): Location?
 
-    @Query("SELECT * FROM locations WHERE id = :locationId AND isCurrentLocation = 0")
-    suspend fun getLocation(locationId: Int): Location?
+    @Query("SELECT * FROM locations WHERE latitude= :latitude AND longitude=:longitude AND isCurrentLocation = 0")
+    suspend fun getLocation(latitude: Double, longitude: Double): Location?
 }

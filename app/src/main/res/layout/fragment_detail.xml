@@ -17,10 +17,10 @@
 
     <LinearLayout
         android:id="@+id/detail_header"
-        android:visibility="@{viewModel.currentWeatherInformation != null ? View.VISIBLE : View.GONE}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="@{viewModel.currentWeatherInformation != null ? View.VISIBLE : View.GONE}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -97,7 +97,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="2dp"
-
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:reverseLayout="false"
                         tool:listitem="@layout/hourly_weather_information" />
