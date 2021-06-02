@@ -7,10 +7,15 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.example.weather.R
 import com.example.weather.database.WeatherAppDatabase
 import com.example.weather.databinding.FragmentDetailBinding
 import com.example.weather.home.DetailViewModelFactory
+import com.example.weather.setting.PressureUnit
+import com.example.weather.setting.Settings
+import com.example.weather.setting.SpeedUnit
+import com.example.weather.setting.TemperatureUnit
 import com.google.android.material.snackbar.Snackbar
 
 private const val LONGITUDE = "longitude"
@@ -55,6 +60,8 @@ class DetailFragment : Fragment() {
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(DetailViewModel::class.java)
 
+        viewModel.settings = loadSettings()
+
         viewModel.getWatchStatus(latitude, longitude)
         viewModel.getLocationWeatherInformation(latitude, longitude, locationName)
 
@@ -62,6 +69,7 @@ class DetailFragment : Fragment() {
             isLocationWatched = it != null
             activity?.invalidateOptionsMenu()
         })
+
 
         val hourlyAdapter = HourlyWeatherInformationAdapter()
         hourlyAdapter.temperatureUnit = viewModel.settings.temperatureUnit
@@ -137,4 +145,29 @@ class DetailFragment : Fragment() {
 
     private fun getViewContent(): View = requireActivity().findViewById(android.R.id.content)
 
+    private fun loadSettings(): Settings {
+        val sp = PreferenceManager.getDefaultSharedPreferences(context)
+        val temperatureUnitString = sp.getString("temperatureUnit", "Celsius")
+        val pressureUnitString = sp.getString("pressureUnit", "Pa")
+        val speedUnitString = sp.getString("speedUnit", "metresPerSecond")
+
+        val temperatureUnit: TemperatureUnit = when (temperatureUnitString) {
+            "Kelvin" -> TemperatureUnit.Kelvin
+            "Fahrenheit" -> TemperatureUnit.Fahrenheit
+            else -> TemperatureUnit.Celsius
+        }
+
+        val pressureUnit: PressureUnit = when (pressureUnitString) {
+            "hPa" -> PressureUnit.hPa
+            else -> PressureUnit.Pa
+        }
+
+        val speedUnit: SpeedUnit = when (speedUnitString) {
+            "kilometersPerSHour" -> SpeedUnit.kilometersPerSHour
+            "milesPerHour" -> SpeedUnit.milesPerHour
+            else -> SpeedUnit.metresPerSecond
+        }
+
+        return Settings(temperatureUnit, speedUnit, pressureUnit)
+    }
 }

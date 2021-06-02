@@ -4,8 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.weather.convertPressure
-import com.example.weather.convertSpeed
 import com.example.weather.convertTemperature
 import com.example.weather.database.daos.LocationDatabaseDAO
 import com.example.weather.database.entities.Location
@@ -86,7 +84,6 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
 
     private fun watchLocation(latitude: Double, longitude: Double) {
         viewModelScope.launch {
-            val temperatureUnit = settings.temperatureUnit
             val setUp =
                 OpenWeatherApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
                     latitude, longitude, "en"
@@ -100,7 +97,7 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
                     locationName = result.city,
                     country = result.sys.country,
                     isCurrentLocation = 0,
-                    temperature = convertTemperature(result.main.temp, temperatureUnit)
+                    temperature = result.main.temp.toInt()
                 )
                 insertLocation(location)
                 _location.value = location
@@ -169,8 +166,6 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
         var chanceOfRain: Int? = null
         var chanceOfSnow: Int? = null
 
-        val temperatureUnit = settings.temperatureUnit
-
         if (currentHourWeatherInformation!!.snow != null) {
             chanceOfSnow = (currentHourWeatherInformation.pop * 100).toInt()
         } else {
@@ -179,19 +174,15 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
 
         val todayWeatherInformation = response.daily[0]
 
-        val temperature =
-            convertTemperature(response.currentWeatherDetail.temp, temperatureUnit)
+        val temperature = response.currentWeatherDetail.temp
 
-        val maxTemperature =
-            convertTemperature(todayWeatherInformation.temperatureDetail.max, temperatureUnit)
+        val maxTemperature = todayWeatherInformation.temperatureDetail.max
 
-        val minTemperature =
-            convertTemperature(todayWeatherInformation.temperatureDetail.min, temperatureUnit)
+        val minTemperature = todayWeatherInformation.temperatureDetail.min
 
-        val pressure =
-            convertPressure(response.currentWeatherDetail.pressure, settings.pressureUnit)
+        val pressure = response.currentWeatherDetail.pressure
 
-        val speed = convertSpeed(response.currentWeatherDetail.windSpeed, settings.speedUnit)
+        val speed = response.currentWeatherDetail.windSpeed
 
         return CurrentWeatherInformation(
             locationName = locationName,
@@ -306,7 +297,7 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
             }
 
 
-            val temperature = convertTemperature(it.temp, settings.temperatureUnit)
+            val temperature = it.temp
 
             HourlyWeatherInformation(
                 datetime = it.datetime,
@@ -353,19 +344,14 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
                 else -> "cloudy_day"
             }
 
-            val temperatureMax =
-                convertTemperature(it.temperatureDetail.max, settings.temperatureUnit)
-
-            val temperatureMin =
-                convertTemperature(it.temperatureDetail.min, settings.temperatureUnit)
 
             DailyWeatherInformation(
                 datetime = it.datetime,
                 chanceOfRain = chanceOfRain,
                 chanceOfSnow = chanceOfSnow,
                 icon = icon,
-                temperatureMax = temperatureMax,
-                temperatureMin = temperatureMin
+                temperatureMax = it.temperatureDetail.max,
+                temperatureMin = it.temperatureDetail.min
             )
         }.sortedBy { it.datetime }
     }
@@ -380,8 +366,7 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
             val temperatureUnit = settings.temperatureUnit
 
             val locationName = information.locationName
-            val currentTemperature =
-                getTemperatureText(information.temperature, temperatureUnit)
+            val currentTemperature = information.temperature
 
             results.add("${locationName}'s current temperature is $currentTemperature,")
             results.add("weather is ${information.weatherStatus.description}.")
@@ -399,8 +384,16 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
 
             results.add("Sunrise at $sunrise, sunset at $sunset.")
 
-            val temperatureMax = getTemperatureText(information.maxTemperature, temperatureUnit)
-            val temperatureMin = getTemperatureText(information.minTemperature, temperatureUnit)
+            val temperatureMax =
+                getTemperatureText(
+                    convertTemperature(information.maxTemperature, temperatureUnit),
+                    temperatureUnit
+                )
+            val temperatureMin =
+                getTemperatureText(
+                    convertTemperature(information.minTemperature, temperatureUnit),
+                    temperatureUnit
+                )
 
             results.add("Minimum temperature near $temperatureMin. Maximum temperature near $temperatureMax.")
 

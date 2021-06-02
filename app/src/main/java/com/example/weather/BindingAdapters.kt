@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @BindingAdapter(value = ["temperature", "temperatureUnit"], requireAll = true)
-fun TextView.setTemperatureFormatted(temperature: Int, unit: TemperatureUnit) = temperature.let {
-    text = getTemperatureText(temperature, unit)
+fun TextView.setTemperatureFormatted(temperature: Double, unit: TemperatureUnit) = temperature.let {
+    text = getTemperatureText(convertTemperature(temperature, unit), unit)
 }
 
 @BindingAdapter("time")
@@ -51,14 +51,14 @@ fun TextView.setFormattedWind(windSpeed: Double, windDegrees: Double, speedUnit:
         windDegrees >= 303.75 && windDegrees < 326.25 -> "NW"
         windDegrees >= 326.25 && windDegrees < 348.75 -> "NNW"
         else -> "N"
-    } + " " + getSpeedText(windSpeed, speedUnit)
+    } + " " + getSpeedText(convertSpeed(windSpeed, speedUnit), speedUnit)
 }
 
 
 @SuppressLint("SetTextI18n")
 @BindingAdapter(value = ["pressure", "pressureUnit"], requireAll = true)
-fun TextView.setFormattedPressure(pressure: Int, unit: PressureUnit) {
-    text = getPressureText(pressure, unit)
+fun TextView.setFormattedPressure(pressure: Double, unit: PressureUnit) {
+    text = getPressureText(convertPressure(pressure, unit), unit)
 }
 
 @SuppressLint("SetTextI18n")

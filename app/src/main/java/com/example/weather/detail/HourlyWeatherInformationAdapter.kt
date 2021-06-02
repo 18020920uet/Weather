@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
-import com.example.weather.getTemperatureText
+import com.example.weather.setTemperatureFormatted
 import com.example.weather.setting.TemperatureUnit
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,16 +36,18 @@ class HourlyWeatherInformationAdapter :
         private val weatherIcon: ImageView = itemView.findViewById(R.id.hourly_icon)
         private val temperature: TextView = itemView.findViewById(R.id.hourly_temperature)
 
-        @SuppressLint("SimpleDateFormat")
+        @SuppressLint("SimpleDateFormat", "SetTextI18n")
         fun bind(item: HourlyWeatherInformation) {
             val time = Date(item.datetime * 1000)
             hour.text = SimpleDateFormat("HH:mm").format(time)
 
-            temperature.text = when (item.type) {
-                TimeStage.Normal -> item.temperature?.let { getTemperatureText(it, unit) }
-                TimeStage.Sunset -> "Sunset"
-                TimeStage.Sunrise -> "Sunrise"
-                TimeStage.Now -> "Now"
+            when (item.type) {
+                TimeStage.Normal -> item.temperature?.let {
+                    temperature.setTemperatureFormatted(it, unit)
+                }
+                TimeStage.Sunset -> temperature.text = "Sunset"
+                TimeStage.Sunrise -> temperature.text = "Sunrise"
+                TimeStage.Now -> temperature.text = "Now"
             }
 
             weatherIcon.setImageResource(

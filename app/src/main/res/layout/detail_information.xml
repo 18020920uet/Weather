@@ -177,8 +177,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pressure_text"
-            app:layout_constraintStart_toStartOf="@+id/humidity_value"
-            app:layout_constraintTop_toBottomOf="@+id/humidity_value" />
+            app:layout_constraintStart_toStartOf="@+id/wind_value"
+            app:layout_constraintTop_toBottomOf="@+id/wind_value" />
 
         <TextView
             android:id="@+id/pressure_value"
@@ -215,9 +215,12 @@
             style="@style/informationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="76dp"
             android:text="@string/uv_index_text"
-            app:layout_constraintStart_toStartOf="@+id/wind_value"
-            app:layout_constraintTop_toBottomOf="@+id/wind_value" />
+            app:layout_constraintBottom_toBottomOf="@+id/pressure_text"
+            app:layout_constraintStart_toStartOf="@+id/humidity_value"
+            app:layout_constraintTop_toBottomOf="@+id/humidity_value" />
 
         <TextView
             android:id="@+id/uv_index_value"
@@ -225,6 +228,7 @@
             android:layout_height="wrap_content"
             android:text="@{String.valueOf(information.uvi)}"
             android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="@+id/pressure_value"
             app:layout_constraintStart_toStartOf="@+id/uv_index_text"
             app:layout_constraintTop_toBottomOf="@+id/uv_index_text"
             tool:text="2.5" />

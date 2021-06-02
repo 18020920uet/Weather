@@ -3,6 +3,7 @@ package com.example.weather
 import com.example.weather.setting.PressureUnit
 import com.example.weather.setting.SpeedUnit
 import com.example.weather.setting.TemperatureUnit
+import java.text.DecimalFormat
 
 /**
  *  Convert temperature to setting's temperature unit
@@ -64,9 +65,10 @@ fun convertSpeed(speed: Double, unit: SpeedUnit): Double {
 }
 
 fun getSpeedText(speed: Double, unit: SpeedUnit): String {
+    val df = DecimalFormat("#.##")
     return when (unit) {
-        SpeedUnit.metresPerSecond -> "$speed m/s"
-        SpeedUnit.kilometersPerSHour -> "$speed km/h"
-        SpeedUnit.milesPerHour -> "$speed mph"
+        SpeedUnit.metresPerSecond -> "${df.format(speed)} m/s"
+        SpeedUnit.kilometersPerSHour -> "${df.format(speed)} km/h"
+        SpeedUnit.milesPerHour -> "${df.format(speed)} mph"
     }
 }

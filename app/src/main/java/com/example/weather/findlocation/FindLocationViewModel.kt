@@ -29,8 +29,6 @@ class FindLocationViewModel(
         get() = _notification
 
     private var _navigateTo = MutableLiveData<String>()
-    val navigateTo: LiveData<String>
-        get() = _navigateTo
 
     fun navigateToDetailFragment() {
         _navigateTo.value = "DetailFragment"
