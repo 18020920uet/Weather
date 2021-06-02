@@ -10,10 +10,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.example.weather.R
 import com.example.weather.database.WeatherAppDatabase
 import com.example.weather.databinding.FragmentHomeBinding
 import com.example.weather.setting.Settings
+import com.example.weather.setting.TemperatureUnit
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -45,7 +47,7 @@ class HomeFragment : Fragment() {
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
-        viewModel.settings = Settings()
+        viewModel.settings = loadSettings()
 
         binding.viewModel = viewModel
 
@@ -81,16 +83,36 @@ class HomeFragment : Fragment() {
                                 .show()
                         } else if (message == "Need reload") {
                             Snackbar.make(getViewContent(), message, Snackbar.LENGTH_INDEFINITE)
-                                .setAction("Reload") { viewModel.reload() }
+                                .setAction("Reload") {
+                                    viewModel.reload()
+                                    viewModel.onShowNotificationComplete()
+                                }
                                 .show()
                         }
                     } else {
                         Snackbar.make(getViewContent(), message, Snackbar.LENGTH_SHORT).show()
+                        viewModel.onShowNotificationComplete()
                     }
-                    viewModel.onShowNotificationComplete()
                 }
             })
 
+
+        val watchingLocationAdapter = WatchingLocationAdapter(
+            WatchingLocationClickListener {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+                        it.latitude.toFloat(), it.longitude.toFloat(), it.locationName, it.country
+                    )
+                )
+            },
+            viewModel.settings.temperatureUnit,
+        )
+        viewModel.watchingLocations.observe(viewLifecycleOwner, {
+            it?.let {
+                watchingLocationAdapter.submitList(it)
+            }
+        })
+        binding.listWatchingLocation.adapter = watchingLocationAdapter
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)
 
@@ -171,8 +193,15 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun loadSettings() {
-        // TODO: Implement loadSettings
-    }
+    private fun loadSettings(): Settings {
+        val sp = PreferenceManager.getDefaultSharedPreferences(context)
+        val temperatureUnitString = sp.getString("temperatureUnit", "Celsius")
 
+        val temperatureUnit: TemperatureUnit = when (temperatureUnitString) {
+            "Kelvin" -> TemperatureUnit.Kelvin
+            "Fahrenheit" -> TemperatureUnit.Fahrenheit
+            else -> TemperatureUnit.Celsius
+        }
+        return Settings(temperatureUnit)
+    }
 }

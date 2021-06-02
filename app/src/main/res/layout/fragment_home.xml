@@ -13,63 +13,87 @@
 
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="@{viewModel.currentLocation != null ? View.VISIBLE : View.GONE}"
         tool:context="com.example.weather.home.HomeFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:background="#938A8A"
-            android:onClick="@{() -> viewModel.navigateToDetailFragment()}"
-            android:visibility="@{viewModel.currentLocation != null ? View.VISIBLE : View.GONE}">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/current_location_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/chivo"
-                android:text="@{viewModel.currentLocation.locationName}"
-                android:textColor="#0E0000"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/my_location_text"
-                app:layout_constraintEnd_toEndOf="@+id/my_location_text"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/my_location_text"
-                app:layout_constraintTop_toTopOf="parent"
-                tool:text="@string/sample_name" />
-
-            <TextView
-                android:id="@+id/my_location_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/my_location_text"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/temperature"
-                temperature="@{viewModel.currentLocation.temperature}"
-                temperatureUnit="@{viewModel.settings.temperatureUnit}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:includeFontPadding="false"
-                android:lineSpacingExtra="0sp"
-                android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/black"
-                android:textSize="36sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/my_location_text"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/current_location"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:background="#938A8A"
+                android:onClick="@{() -> viewModel.navigateToDetailFragment()}"
+                app:layout_constraintBottom_toTopOf="@+id/list_watching_location"
                 app:layout_constraintEnd_toEndOf="parent"
-                tool:text="@string/sample_temperature" />
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/chivo"
+                    android:text="@{viewModel.currentLocation.locationName}"
+                    android:textColor="#0E0000"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toTopOf="@+id/my_location_text"
+                    app:layout_constraintEnd_toEndOf="@+id/my_location_text"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/my_location_text"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tool:text="@string/sample_name" />
+
+                <TextView
+                    android:id="@+id/my_location_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/my_location_text"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/temperature"
+                    temperature="@{viewModel.currentLocation.temperature}"
+                    temperatureUnit="@{viewModel.settings.temperatureUnit}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="0sp"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/black"
+                    android:textSize="36sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/my_location_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tool:text="@string/sample_temperature" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_watching_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/aboutUs"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/current_location"
+                tool:listitem="@layout/watching_location" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
+    </ScrollView>
 </layout>

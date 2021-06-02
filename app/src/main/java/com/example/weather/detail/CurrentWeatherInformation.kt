@@ -4,7 +4,7 @@ import com.example.weather.network.responses.Weather
 
 data class CurrentWeatherInformation(
     val locationName: String = "",
-    val temperature: Int,
+    val temperature: Double,
     val sunrise: Long,
     val sunset: Long,
     val chanceOfRain: Int?,
@@ -12,10 +12,10 @@ data class CurrentWeatherInformation(
     val humidity: Int,
     val windSpeed: Double,
     val windDegrees: Double,
-    val pressure: Int,
+    val pressure: Double,
     val visibility: Int,
     val uvi: Double,
-    val maxTemperature: Int,
-    val minTemperature: Int,
+    val maxTemperature: Double,
+    val minTemperature: Double,
     val weatherStatus: Weather
 )

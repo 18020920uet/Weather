@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
-import com.example.weather.getTemperatureText
+import com.example.weather.setTemperatureFormatted
 import com.example.weather.setting.TemperatureUnit
 import java.text.SimpleDateFormat
 import java.util.*
@@ -84,12 +84,12 @@ class DailyWeatherInformationAdapter :
                 }
             }
 
-            temperatureMax.text = getTemperatureText(item.temperatureMax, unit)
-            temperatureMin.text = getTemperatureText(item.temperatureMin, unit)
+            temperatureMax.setTemperatureFormatted(item.temperatureMax, unit)
+            temperatureMin.setTemperatureFormatted(item.temperatureMin, unit)
         }
 
         companion object {
-            lateinit var unit: TemperatureUnit
+            private lateinit var unit: TemperatureUnit
             fun from(parent: ViewGroup, temperatureUnit: TemperatureUnit): ViewHolder {
                 unit = temperatureUnit
                 val view = LayoutInflater.from(parent.context)

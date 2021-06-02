@@ -4,18 +4,14 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.weather.convertTemperature
 import com.example.weather.database.daos.LocationDatabaseDAO
 import com.example.weather.database.entities.Location
 import com.example.weather.network.OpenWeatherApi
 import com.example.weather.setting.Settings
 import kotlinx.coroutines.*
-import timber.log.Timber
 
 class HomeViewModel(val database: LocationDatabaseDAO, application: Application) :
     AndroidViewModel(application) {
-
-    var lastUpdated: Long = 0L
 
     private var _currentLocation = MutableLiveData<Location?>()
     val currentLocation: LiveData<Location?>
@@ -24,6 +20,8 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
     private var _notification = MutableLiveData<String>()
     val notification: LiveData<String>
         get() = _notification
+
+    var watchingLocations: LiveData<List<Location>>
 
     fun onShowNotificationComplete() {
         _notification.value = ""
@@ -57,6 +55,7 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
 
     init {
         getCurrentLocation()
+        watchingLocations = database.getWatchingLocations()
     }
 
     private fun getCurrentLocation() {
@@ -72,34 +71,25 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
 
     fun reload() = getCurrentLocation()
 
-
     private suspend fun getCurrentLocationWeatherInformation(location: Location) {
         val language = settings.language ?: "en"
         val setUp =
             OpenWeatherApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
-                location.latitude,
-                location.longitude,
-                language
+                location.latitude, location.longitude, language
             )
         try {
-            val temperatureUnit = settings.temperatureUnit
             val result = setUp.await()
             location.locationName = result.city
-            location.temperature =
-                convertTemperature(result.main.temp, temperatureUnit)
+            location.temperature = result.main.temp.toInt()
             _currentLocation.value = location
-            lastUpdated = System.currentTimeMillis()
         } catch (t: Throwable) {
             _notification.value = "Need reload"
         }
     }
 
     fun saveLocation(latitude: Double, longitude: Double) {
-        Timber.i("saveLocationInfo")
         viewModelScope.launch {
             val language = settings.language ?: "en"
-            val temperatureUnit = settings.temperatureUnit
-
             val setUp =
                 OpenWeatherApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
                     latitude, longitude, language
@@ -113,9 +103,10 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
                     locationName = result.city,
                     country = result.sys.country,
                     isCurrentLocation = 1,
-                    temperature = convertTemperature(result.main.temp, temperatureUnit)
+                    temperature = result.main.temp.toInt()
                 )
                 _currentLocation.value = location
+                _notification.value = ""
                 insertLocation(location)
             } catch (t: Throwable) {
                 _notification.value = t.message
@@ -123,7 +114,40 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
         }
     }
 
+//    fun loadLocationsWeatherInformation() {
+//        viewModelScope.launch {
+//            val locations = getLocations().await()
+//            for (index in locations.indices) {
+//                getLocationWeatherInformation(watchingLocations.value!![index])
+//            }
+//        }
+//    }
+
+//    private suspend fun getLocationWeatherInformation(location: Location) {
+//        val language = settings.language ?: "en"
+//        val setUp =
+//            OpenWeatherApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
+//                location.latitude, location.longitude, language
+//            )
+//        try {
+//            val result = setUp.await()
+//            location.locationName = "HAHAHA"
+//            location.temperature = result.main.temp.toInt()
+//        } catch (t: Throwable) {
+//            _notification.value = "Need reload"
+//        }
+//        watchingLocations.value = watchingLocations.value!!.plus(location)
+//    }
+
     private suspend fun insertLocation(location: Location) {
-        return withContext(Dispatchers.IO) { database.insert(location) }
+        return withContext(Dispatchers.IO) {
+            database.insert(location)
+        }
     }
+
+//    private suspend fun getLocations(): List<Location> {
+//        return withContext(Dispatchers.IO) {
+//            database.getLocations()
+//        }
+//    }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="temperatureUnits">
+        <item>Celsius</item>
+        <item>Kelvin</item>
+        <item>Fahrenheit</item>
+    </array>
+
+    <array name="pressureUnits">
+        <item>hPa</item>
+        <item>Pa</item>
+    </array>
+
+    <array name="speedUnits">
+        <item>m/s</item>
+        <item>km/h</item>
+        <item>miles/h</item>
+    </array>
+
+    <array name="speedUnitValues">
+        <item>metresPerSecond</item>
+        <item>kilometersPerSHour</item>
+        <item>milesPerHour</item>
+    </array>
+</resources>
