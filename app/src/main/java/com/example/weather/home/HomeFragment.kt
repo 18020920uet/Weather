@@ -76,22 +76,23 @@ class HomeFragment : Fragment() {
             viewLifecycleOwner,
             { message ->
                 message?.let {
-                    if (message != "") {
-                        if (message == "Require position") {
+                    when (message) {
+                        "Require position" -> {
                             Snackbar.make(getViewContent(), message, Snackbar.LENGTH_INDEFINITE)
                                 .setAction("Set") { preSetPosition() }
                                 .show()
-                        } else if (message == "Need reload") {
+                        }
+                        "Need reload" -> {
                             Snackbar.make(getViewContent(), message, Snackbar.LENGTH_INDEFINITE)
                                 .setAction("Reload") {
                                     viewModel.reload()
-                                    viewModel.onShowNotificationComplete()
                                 }
                                 .show()
                         }
-                    } else {
-                        Snackbar.make(getViewContent(), message, Snackbar.LENGTH_SHORT).show()
-                        viewModel.onShowNotificationComplete()
+                        else -> {
+                            Snackbar.make(getViewContent(), message, Snackbar.LENGTH_SHORT).show()
+                            viewModel.onShowNotificationComplete()
+                        }
                     }
                 }
             })

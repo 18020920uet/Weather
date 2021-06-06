@@ -9,6 +9,7 @@ import com.example.weather.database.entities.Location
 import com.example.weather.network.OpenWeatherApi
 import com.example.weather.setting.Settings
 import kotlinx.coroutines.*
+import timber.log.Timber
 
 class HomeViewModel(val database: LocationDatabaseDAO, application: Application) :
     AndroidViewModel(application) {
@@ -17,8 +18,8 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
     val currentLocation: LiveData<Location?>
         get() = _currentLocation
 
-    private var _notification = MutableLiveData<String>()
-    val notification: LiveData<String>
+    private var _notification = MutableLiveData<String?>()
+    val notification: LiveData<String?>
         get() = _notification
 
     var watchingLocations: LiveData<List<Location>>
@@ -69,7 +70,10 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
         }
     }
 
-    fun reload() = getCurrentLocation()
+    fun reload(){
+        getCurrentLocation()
+        _notification.value = null
+    }
 
     private suspend fun getCurrentLocationWeatherInformation(location: Location) {
         val language = settings.language ?: "en"
@@ -106,8 +110,8 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
                     temperature = result.main.temp.toInt()
                 )
                 _currentLocation.value = location
-                _notification.value = ""
                 insertLocation(location)
+                _notification.value = null
             } catch (t: Throwable) {
                 _notification.value = t.message
             }
@@ -151,3 +155,4 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
 //        }
 //    }
 }
+
