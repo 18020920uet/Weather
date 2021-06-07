@@ -11,13 +11,17 @@
             name="viewModel"
             type="com.example.weather.home.HomeViewModel" />
 
+        <variable
+            name="location"
+            type="com.example.weather.database.entities.Location" />
+
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="@{viewModel.currentLocation != null ? View.VISIBLE : View.GONE}"
+        android:visibility="@{location != null ? View.VISIBLE : View.GONE}"
         tool:context="com.example.weather.home.HomeFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/chivo"
-                    android:text="@{viewModel.currentLocation.locationName}"
+                    android:text="@{location.locationName}"
                     android:textColor="#0E0000"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toTopOf="@+id/my_location_text"
@@ -65,7 +69,7 @@
 
                 <TextView
                     android:id="@+id/temperature"
-                    temperature="@{viewModel.currentLocation.temperature}"
+                    temperature="@{location.temperature}"
                     temperatureUnit="@{viewModel.settings.temperatureUnit}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,6 +84,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     tool:text="@string/sample_temperature" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_watching_location"

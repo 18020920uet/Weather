@@ -51,24 +51,31 @@ class HomeFragment : Fragment() {
 
         binding.viewModel = viewModel
 
+
+        viewModel.currentLocation.observe(viewLifecycleOwner, {
+            binding.location = it
+        })
+
         viewModel.navigateTo.observe(viewLifecycleOwner, { fragmentName ->
-            when (fragmentName) {
-                "DetailFragment" -> {
-                    viewModel.currentLocation.value?.let {
-                        findNavController()
-                            .navigate(
-                                HomeFragmentDirections.actionHomeFragmentToDetailFragment(
-                                    it.latitude.toFloat(),
-                                    it.longitude.toFloat(),
-                                    it.locationName,
-                                    it.country
+            fragmentName?.let {
+                when (fragmentName) {
+                    "DetailFragment" -> {
+                        viewModel.currentLocation.value?.let {
+                            findNavController()
+                                .navigate(
+                                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+                                        it.latitude.toFloat(),
+                                        it.longitude.toFloat(),
+                                        it.locationName,
+                                        it.country
+                                    )
                                 )
-                            )
+                        }
+                        viewModel.onNavigateComplete()
                     }
-                    viewModel.onNavigateComplete()
+                    "" -> Timber.i("HomeFragment")
+                    else -> viewModel.setNotification("Unknown fragment: $fragmentName")
                 }
-                "" -> Timber.i("HomeFragment")
-                else -> viewModel.setNotification("Unknown fragment: $fragmentName")
             }
         })
 
@@ -166,6 +173,7 @@ class HomeFragment : Fragment() {
 
                 fusedLocationClient.lastLocation.addOnSuccessListener { location: android.location.Location? ->
                     location?.let {
+                        Timber.i("$it")
                         binding.viewModel?.saveLocation(location.latitude, location.longitude)
                         fusedLocationClient.removeLocationUpdates(locationCallback)
                     }
@@ -196,13 +204,13 @@ class HomeFragment : Fragment() {
 
     private fun loadSettings(): Settings {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
-        val temperatureUnitString = sp.getString("temperatureUnit", "Celsius")
 
-        val temperatureUnit: TemperatureUnit = when (temperatureUnitString) {
-            "Kelvin" -> TemperatureUnit.Kelvin
-            "Fahrenheit" -> TemperatureUnit.Fahrenheit
-            else -> TemperatureUnit.Celsius
-        }
+        val temperatureUnit: TemperatureUnit =
+            when (sp.getString("temperatureUnit", "Celsius")) {
+                "Kelvin" -> TemperatureUnit.Kelvin
+                "Fahrenheit" -> TemperatureUnit.Fahrenheit
+                else -> TemperatureUnit.Celsius
+            }
         return Settings(temperatureUnit)
     }
 }

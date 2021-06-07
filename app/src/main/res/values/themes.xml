@@ -14,6 +14,10 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="ThemeOverlay.WeatherApp.AppWidgetContainer" parent="">
+        <item name="appWidgetBackgroundColor">@color/light_blue_600</item>
+        <item name="appWidgetTextColor">@color/light_blue_50</item>
+    </style>
     <style name="informationText">
         <item name="android:textSize">12sp</item>
         <item name="android:layout_marginTop">10dp</item>

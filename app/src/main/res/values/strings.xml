@@ -7,9 +7,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="about_us">About Us</string>
     <string name="my_location_text">My Location</string>
-
     <string name="sample_temperature">26℃</string>
     <string name="sample_name">Hanoi</string>
+    <string name="appwidget_text">Troi co mua</string>
+    <string name="add_widget">Add widget</string>
+    <string name="current_weather_icon">Current weather icon</string>
     <string name="Detail">Detail</string>
     <string name="require_internet_connection">Require Internet Connection</string>
     <string name="wifi_icon_description">A wifi icon</string>
@@ -84,6 +86,4 @@
     <string name="search_icon">Search icon</string>
     <string name="search">Search</string>
     <string name="result_text">Result</string>
-
-
 </resources>

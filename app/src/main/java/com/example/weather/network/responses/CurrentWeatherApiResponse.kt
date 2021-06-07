@@ -3,6 +3,8 @@ package com.example.weather.network.responses
 import com.squareup.moshi.Json
 
 data class CurrentWeatherApiResponse(
+    @Json(name = "dt")
+    val datetime: Long,
     val id: Int,
     @Json(name = "coord")
     val coordinates: Coordinates,
@@ -13,7 +15,9 @@ data class CurrentWeatherApiResponse(
     @Json(name = "sys")
     val sys: Sys,
     @Json(name = "main")
-    val main: Main
+    val main: Main,
+    @Json(name = "weather")
+    val weather: List<Weather>
 )
 
 data class Coordinates(
