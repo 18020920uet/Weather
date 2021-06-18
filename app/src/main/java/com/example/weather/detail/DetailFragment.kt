@@ -63,6 +63,7 @@ class DetailFragment : Fragment() {
         viewModel.settings = loadSettings()
 
         viewModel.getWatchStatus(latitude, longitude)
+        viewModel.getBackgrounds(locationName, countryName)
         viewModel.getLocationWeatherInformation(latitude, longitude, locationName)
 
         viewModel.location.observe(viewLifecycleOwner, {
@@ -95,6 +96,14 @@ class DetailFragment : Fragment() {
         viewModel.listOfDailyWeatherInformation.observe(viewLifecycleOwner, {
             it?.let {
                 dailyAdapter.submitList(it)
+            }
+        })
+
+        val locationPhotoAdapter = LocationPhotoAdapter()
+        binding.listOfLocationPhoto.adapter = locationPhotoAdapter
+        viewModel.listOfLocationPhotoURL.observe(viewLifecycleOwner, {
+            it?.let {
+                locationPhotoAdapter.submitList(it)
             }
         })
 

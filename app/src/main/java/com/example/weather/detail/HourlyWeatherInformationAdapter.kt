@@ -1,6 +1,7 @@
 package com.example.weather.detail
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,7 @@ class HourlyWeatherInformationAdapter :
 
         @SuppressLint("SimpleDateFormat", "SetTextI18n")
         fun bind(item: HourlyWeatherInformation) {
+            itemView.setBackgroundColor(Color.parseColor("#f2fcfe"))
             val time = Date(item.datetime * 1000)
             hour.text = SimpleDateFormat("HH:mm").format(time)
 

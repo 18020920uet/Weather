@@ -20,6 +20,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
@@ -83,6 +85,7 @@ class HomeFragment : Fragment() {
             viewLifecycleOwner,
             { message ->
                 message?.let {
+                    Timber.i("$message")
                     when (message) {
                         "Require position" -> {
                             Snackbar.make(getViewContent(), message, Snackbar.LENGTH_INDEFINITE)
@@ -98,7 +101,6 @@ class HomeFragment : Fragment() {
                         }
                         else -> {
                             Snackbar.make(getViewContent(), message, Snackbar.LENGTH_SHORT).show()
-                            viewModel.onShowNotificationComplete()
                         }
                     }
                 }
@@ -154,29 +156,19 @@ class HomeFragment : Fragment() {
                 ActivityCompat.checkSelfPermission(requireContext(), aclPermission)
                 == PackageManager.PERMISSION_GRANTED
             ) {
-                fusedLocationClient =
-                    LocationServices.getFusedLocationProviderClient(requireContext())
+                fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+                fusedLocationClient.getCurrentLocation(
+                    LocationRequest.PRIORITY_HIGH_ACCURACY,
+                    object : CancellationToken() {
+                        override fun isCancellationRequested(): Boolean {
+                            return false
+                        }
 
-                val locationRequest = LocationRequest.create().apply {
-                    interval = 10000
-                    fastestInterval = 5000
-                    priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-                }
-
-                val locationCallback = object : LocationCallback() {}
-
-                fusedLocationClient.requestLocationUpdates(
-                    locationRequest,
-                    locationCallback,
-                    Looper.getMainLooper()
-                )
-
-                fusedLocationClient.lastLocation.addOnSuccessListener { location: android.location.Location? ->
-                    location?.let {
-                        Timber.i("$it")
-                        binding.viewModel?.saveLocation(location.latitude, location.longitude)
-                        fusedLocationClient.removeLocationUpdates(locationCallback)
-                    }
+                        override fun onCanceledRequested(p0: OnTokenCanceledListener): CancellationToken {
+                            return this
+                        }
+                    }).addOnSuccessListener { location: android.location.Location? ->
+                    binding.viewModel?.saveLocation(location!!.latitude, location.longitude)
                 }
             }
         } catch (e: Exception) {

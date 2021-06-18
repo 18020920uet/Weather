@@ -17,19 +17,32 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:onClick="@{() -> clickListener.onClick(relatedNameLocation)}">
 
         <TextView
-            relatedNameLocation="@{relatedNameLocation}"
+            android:id="@+id/related_location_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:text="@{relatedNameLocation.name}"
+            android:textSize="20sp"
             android:textStyle="italic"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/related_stateName_countryName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tool:text="London, OH, US" />
+            tool:text="London" />
+
+        <TextView
+            android:id="@+id/related_stateName_countryName"
+            relatedNameLocation="@{relatedNameLocation}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/related_location_name"
+            app:layout_constraintStart_toStartOf="@+id/related_location_name"
+            app:layout_constraintTop_toBottomOf="@+id/related_location_name"
+            tool:text="OH, US" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

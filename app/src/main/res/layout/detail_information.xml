@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#D1FFFB">
+        android:background="#f2fcfe">
 
         <TextView
             android:id="@+id/maximum_temperature_text"
@@ -156,8 +156,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/wind_text"
-            app:layout_constraintStart_toStartOf="@+id/probability_of_precipitation_value"
-            app:layout_constraintTop_toBottomOf="@+id/humidity_value" />
+            app:layout_constraintStart_toStartOf="@+id/pressure_value"
+            app:layout_constraintTop_toBottomOf="@+id/pressure_value" />
 
         <TextView
             android:id="@+id/wind_value"
@@ -169,7 +169,7 @@
             android:textSize="30sp"
             app:layout_constraintStart_toStartOf="@+id/wind_text"
             app:layout_constraintTop_toBottomOf="@+id/wind_text"
-            tool:text="NNE 3.66 km/h" />
+            tool:text="NNE 3.6 km/h" />
 
         <TextView
             android:id="@+id/pressure_text"
@@ -177,8 +177,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pressure_text"
-            app:layout_constraintStart_toStartOf="@+id/wind_value"
-            app:layout_constraintTop_toBottomOf="@+id/wind_value" />
+            app:layout_constraintStart_toStartOf="@+id/probability_of_precipitation_value"
+            app:layout_constraintTop_toBottomOf="@+id/probability_of_precipitation_value" />
 
         <TextView
             android:id="@+id/pressure_value"
@@ -197,8 +197,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/visibility_text"
-            app:layout_constraintStart_toStartOf="@+id/pressure_value"
-            app:layout_constraintTop_toBottomOf="@+id/pressure_value" />
+            app:layout_constraintStart_toStartOf="@+id/humidity_value"
+            app:layout_constraintTop_toBottomOf="@+id/humidity_value" />
 
         <TextView
             android:id="@+id/visibility_value"
@@ -215,12 +215,9 @@
             style="@style/informationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="76dp"
             android:text="@string/uv_index_text"
-            app:layout_constraintBottom_toBottomOf="@+id/pressure_text"
             app:layout_constraintStart_toStartOf="@+id/humidity_value"
-            app:layout_constraintTop_toBottomOf="@+id/humidity_value" />
+            app:layout_constraintTop_toBottomOf="@+id/visibility_value" />
 
         <TextView
             android:id="@+id/uv_index_value"
@@ -228,8 +225,7 @@
             android:layout_height="wrap_content"
             android:text="@{String.valueOf(information.uvi)}"
             android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="@+id/pressure_value"
-            app:layout_constraintStart_toStartOf="@+id/uv_index_text"
+            app:layout_constraintStart_toStartOf="@+id/visibility_value"
             app:layout_constraintTop_toBottomOf="@+id/uv_index_text"
             tool:text="2.5" />
 

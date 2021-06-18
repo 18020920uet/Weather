@@ -70,7 +70,7 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
         }
     }
 
-    fun reload(){
+    fun reload() {
         getCurrentLocation()
         _notification.value = null
     }
@@ -96,7 +96,7 @@ class HomeViewModel(val database: LocationDatabaseDAO, application: Application)
             val language = settings.language ?: "en"
             val setUp =
                 OpenWeatherApi.retrofitService.getCurrentWeatherByCoordinatesAsync(
-                    latitude, longitude, language
+                    latitude = latitude, longitude = longitude, language
                 )
             try {
                 val result = setUp.await()

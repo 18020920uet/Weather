@@ -34,7 +34,6 @@ fun getTemperatureText(temperature: Int, unit: TemperatureUnit): String {
  *  @param  unit - type of pressure unit: hPa - Pa
  *  @return result convert value
  */
-
 fun convertPressure(pressure: Double, unit: PressureUnit): Int {
     return when (unit) {
         PressureUnit.hPa -> pressure.toInt()
@@ -65,7 +64,7 @@ fun convertSpeed(speed: Double, unit: SpeedUnit): Double {
 }
 
 fun getSpeedText(speed: Double, unit: SpeedUnit): String {
-    val df = DecimalFormat("#.##")
+    val df = DecimalFormat("#.#")
     return when (unit) {
         SpeedUnit.metresPerSecond -> "${df.format(speed)} m/s"
         SpeedUnit.kilometersPerSHour -> "${df.format(speed)} km/h"

@@ -52,7 +52,8 @@
         <li>Xem chi tiết thông tin thời tiết về một địa điểm:\n
                 + Thời điểm hiện tại\n
                 + 24 tiếng tiếp theo\n
-                + 7 ngày tiếp theo
+                + 7 ngày tiếp theo\n
+                + Một số hình ảnh về địa điểm
         </li>\n
         <li>Chia sẻ thông tin thời tiết với bạn bè.</li>\n
         <li>Widget trên màn hình chính của máy.</li>\n
@@ -86,4 +87,5 @@
     <string name="search_icon">Search icon</string>
     <string name="search">Search</string>
     <string name="result_text">Result</string>
+    <string name="location_photo">Location photo</string>
 </resources>

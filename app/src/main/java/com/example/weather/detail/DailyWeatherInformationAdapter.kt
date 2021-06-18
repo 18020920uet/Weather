@@ -1,11 +1,13 @@
 package com.example.weather.detail
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -37,13 +39,13 @@ class DailyWeatherInformationAdapter :
         private val temperatureMax = itemView.findViewById<TextView>(R.id.daily_temperature_max)
         private val temperatureMin = itemView.findViewById<TextView>(R.id.daily_temperature_min)
 
-
         @SuppressLint("SimpleDateFormat", "SetTextI18n")
         fun bind(item: DailyWeatherInformation) {
+            itemView.setBackgroundColor(Color.parseColor("#f2fcfe"))
+
             val time = Date(item.datetime * 1000)
             val currentTime = Date(System.currentTimeMillis())
             val date = SimpleDateFormat("EEEE", Locale.ENGLISH).format(time)
-
 
             if (currentTime.date == time.date) {
                 weekDay.text = "Today"

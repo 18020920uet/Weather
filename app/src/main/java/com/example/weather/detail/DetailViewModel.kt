@@ -8,6 +8,7 @@ import com.example.weather.convertTemperature
 import com.example.weather.database.daos.LocationDatabaseDAO
 import com.example.weather.database.entities.Location
 import com.example.weather.getTemperatureText
+import com.example.weather.network.GoogleSearchImageApi
 import com.example.weather.network.OpenWeatherApi
 import com.example.weather.network.responses.Hourly
 import com.example.weather.network.responses.WeatherDetailResponse
@@ -50,6 +51,9 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
     val listOfDailyWeatherInformation: LiveData<List<DailyWeatherInformation>>
         get() = _listOfDailyWeatherInformation
 
+    private var _listOfLocationPhotoURL = MutableLiveData<List<String>>()
+    val listOfLocationPhotoURL: LiveData<List<String>>
+        get() = _listOfLocationPhotoURL
 
     private var viewModelJob = Job()
     private var viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -71,6 +75,20 @@ class DetailViewModel(val database: LocationDatabaseDAO, application: Applicatio
         viewModelScope.launch {
             val location = getLocation()
             _location.value = location
+        }
+    }
+
+    fun getBackgrounds(locationName: String, countryName: String) {
+        viewModelScope.launch {
+            val search = "$locationName, $countryName famous places"
+            val setUp = GoogleSearchImageApi.retrofitService.GetBackgrounds(searchValue = search)
+            try {
+                val result = setUp.await()
+                _listOfLocationPhotoURL.value = result.items.map { item -> item.link }
+            } catch (e: Exception) {
+                _notification.value = e.message
+                Timber.i("${e}")
+            }
         }
     }
 

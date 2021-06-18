@@ -19,6 +19,7 @@
         android:id="@+id/detail_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#f2fcfe"
         android:orientation="vertical"
         android:visibility="@{viewModel.currentWeatherInformation != null ? View.VISIBLE : View.GONE}">
 
@@ -87,40 +88,38 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_of_hourly_weather_information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#f2fcfe"
+                    android:orientation="horizontal"
+                    android:padding="2dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:reverseLayout="false"
+                    tool:listitem="@layout/hourly_weather_information" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_of_daily_weather_information"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/list_of_hourly_weather_information"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="2dp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:reverseLayout="false"
-                        tool:listitem="@layout/hourly_weather_information" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/list_of_daily_weather_information"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/teal_200"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tool:listitem="@layout/daily_weather_information" />
-                </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:background="#f2fcfe"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tool:listitem="@layout/daily_weather_information" />
 
                 <include
                     layout="@layout/detail_information"
                     bind:information="@{viewModel.currentWeatherInformation}"
-                    bind:settings="@{viewModel.settings}">
+                    bind:settings="@{viewModel.settings}" />
 
-                </include>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_of_location_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#f2fcfe"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tool:listitem="@layout/location_photo" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

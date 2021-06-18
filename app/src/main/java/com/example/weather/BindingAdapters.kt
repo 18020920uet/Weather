@@ -65,8 +65,8 @@ fun TextView.setFormattedPressure(pressure: Double, unit: PressureUnit) {
 @BindingAdapter("relatedNameLocation")
 fun TextView.setRelatedNameLocation(relatedNameLocation: RelatedNameLocation) {
     text = if (relatedNameLocation.state != null) {
-        "${relatedNameLocation.name}, ${relatedNameLocation.state}, ${relatedNameLocation.country}"
+        "${relatedNameLocation.state}, ${relatedNameLocation.country}"
     } else {
-        "${relatedNameLocation.name}, ${relatedNameLocation.country}"
+        relatedNameLocation.country
     }
 }
