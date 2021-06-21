@@ -1,11 +1,13 @@
 package com.example.weather.network
 
+import com.example.weather.BuildConfig
 import com.example.weather.network.responses.CurrentWeatherApiResponse
 import com.example.weather.network.responses.RelatedNameLocation
 import com.example.weather.network.responses.WeatherDetailResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import io.github.cdimascio.dotenv.Dotenv
 import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -13,7 +15,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 private const val BASE_URL = "https://api.openweathermap.org"
-private const val API_KEY = "2fd93d34a2121d9ff3507a700d1b19ce"
+private const val API_KEY = BuildConfig.OPEN_WEATHER_MAP_API_KEY
+
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())

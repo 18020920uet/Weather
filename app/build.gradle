@@ -7,6 +7,9 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'androidx.navigation.safeargs'
 
+def properties = new Properties()
+properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -29,6 +32,9 @@ android {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+        buildConfigField "String", "GOOGLE_SEARCH_ENGINE_API_KEY", properties['GOOGLE_SEARCH_ENGINE_API_KEY']
+        buildConfigField "String", "GOOGLE_SEARCH_ENGINE_KEY", properties['GOOGLE_SEARCH_ENGINE_KEY']
+        buildConfigField "String", "OPEN_WEATHER_MAP_API_KEY", properties['OPEN_WEATHER_MAP_API_KEY']
     }
 
     buildTypes {
@@ -110,5 +116,9 @@ dependencies {
     // Room test
     androidTestImplementation "androidx.room:room-testing:$version_room"
 
+    // Get photo from URL
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // Dotenv helper
+    implementation 'io.github.cdimascio:dotenv-kotlin:6.2.2'
 }

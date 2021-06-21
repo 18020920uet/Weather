@@ -1,6 +1,8 @@
 package com.example.weather.network
 
+import io.github.cdimascio.dotenv.Dotenv;
 import android.speech.tts.TextToSpeech
+import com.example.weather.BuildConfig
 import com.example.weather.network.responses.GoogleSearchImageResponse
 import com.example.weather.network.responses.WeatherDetailResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -14,8 +16,9 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 private const val BASE_URL = "https://www.googleapis.com"
-private const val API_KEY = "AIzaSyA5yak04BpeJ8fxiULcm-vasQ8N41Yk-uQ"
-private const val SEARCH_ENGINE_KEY = "20e56fab8f12d2faf"
+private const val API_KEY = BuildConfig.GOOGLE_SEARCH_ENGINE_API_KEY
+private const val SEARCH_ENGINE_KEY = BuildConfig.GOOGLE_SEARCH_ENGINE_KEY
+
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
