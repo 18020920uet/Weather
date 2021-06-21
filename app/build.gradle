@@ -64,6 +64,7 @@ dependencies {
 
     implementation "com.android.support:design:$support_version"
     implementation "com.android.support:appcompat-v7:$support_version"
+
     /// Material
     implementation 'com.google.android.material:material:1.3.0'
 
@@ -72,19 +73,19 @@ dependencies {
     // Constraint Layout
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
-    /// Timber
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    // Recycler View
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+
+    // Card View
+    implementation "androidx.cardview:cardview:1.0.0"
 
     /// Navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:$version_navigation"
     implementation "android.arch.navigation:navigation-ui-ktx:$version_navigation"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    // Recycler View
-    implementation "androidx.recyclerview:recyclerview:1.2.1"
-
-    // Card View
-    implementation "androidx.cardview:cardview:1.0.0"
+    /// Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // Room database
     implementation "androidx.room:room-runtime:$version_room"
@@ -118,7 +119,4 @@ dependencies {
 
     // Get photo from URL
     implementation 'com.squareup.picasso:picasso:2.71828'
-
-    // Dotenv helper
-    implementation 'io.github.cdimascio:dotenv-kotlin:6.2.2'
 }
