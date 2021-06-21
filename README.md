@@ -5,7 +5,7 @@
 
 _Project cuối kỳ môn phát triển ứng dụng di động_
 
-## Công nghệ sử  dụng
+## Công nghệ sử dụng
 
 Ngôn ngữ lập trình: **Kotlin**
 
@@ -34,7 +34,7 @@ _**SuggestLocation**_  (bảng tạo ra dùng để test migration)
 ![SuggestLocation](./photos/Suggest_Location_Entity.png)
 
 
-
+https://github.com/inFngNam/Weather/blob/main/%5BNh%C3%B3m%2024%5D%20Ki%E1%BB%83m%20tra%20%C4%91%E1%BA%A1o%20v%C4%83n.png
 ## Một số tính năng
 - Yêu cầu vị trí hiện tại người dùng => Lấy thông tin thời tiết tại vị trí của người dùng
 - Đổi đơn vị hiển thị nhiệt độ, vận tốc, áp suất
@@ -62,24 +62,24 @@ _**SuggestLocation**_  (bảng tạo ra dùng để test migration)
 ## Một số hình ảnh của ứng dụng
 
 ### Màn hình home
-<img src="./photos/home.png" width="350" height="450" />
+<img src="./photos/home.png" width="400" height="600" />
 
 ### Màn hình Find Location
-<img src="./photos/find_location.png" width="350" height="450" />
+<img src="./photos/find_location.png" width="400" height="600" />
 
 ### Màn hình Detail
-<img src="./photos/detail_1.png" width="350" height="450" />
+<img src="./photos/detail_1.png" width="400" height="600" />
 
-<img src="./photos/detail_2.png" width="350" height="450" />
+<img src="./photos/detail_2.png" width="400" height="600" />
 
 ### Màn hình Settings
-<img src="./photos/settings.png" width="350" height="450" />
+<img src="./photos/settings.png" width="400" height="600" />
 
 ### Màn hình about us
-<img src="./photos/about_us.png" width="350" height="450" />
+<img src="./photos/about_us.png" width="400" height="600" />
 
 ### Widget
-<img src="./photos/widget.png" width="350" height="450" />
+<img src="./photos/widget.png" width="400" height="600" />
 
 
 ## Thành viên trong nhóm 24
@@ -89,5 +89,6 @@ _**SuggestLocation**_  (bảng tạo ra dùng để test migration)
 
 
 ## Báo cáo
-[Báo cáo chi tiết]()
-[Kiểm tra đạo văn]()
+[Báo cáo chi tiết](https://github.com/inFngNam/Weather/blob/main/%5BNh%C3%B3m%2024%5D%20%E1%BB%A8ng%20d%E1%BB%A5ng%20d%E1%BB%B1%20b%C3%A1o%20th%E1%BB%9Di%20ti%E1%BA%BFt.pdf)
+
+[Kiểm tra đạo văn](https://github.com/inFngNam/Weather/blob/main/%5BNh%C3%B3m%2024%5D%20Ki%E1%BB%83m%20tra%20%C4%91%E1%BA%A1o%20v%C4%83n.png)
