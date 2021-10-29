@@ -34,7 +34,8 @@ _**SuggestLocation**_  (bảng tạo ra dùng để test migration)
 ![SuggestLocation](./photos/Suggest_Location_Entity.png)
 
 
-https://github.com/inFngNam/Weather/blob/main/%5BNh%C3%B3m%2024%5D%20Ki%E1%BB%83m%20tra%20%C4%91%E1%BA%A1o%20v%C4%83n.png
+![Kiểm tra đạo văn báo cáo](https://github.com/inFngNam/Weather/blob/main/%5BNh%C3%B3m%2024%5D%20Ki%E1%BB%83m%20tra%20%C4%91%E1%BA%A1o%20v%C4%83n.png)
+
 ## Một số tính năng
 - Yêu cầu vị trí hiện tại người dùng => Lấy thông tin thời tiết tại vị trí của người dùng
 - Đổi đơn vị hiển thị nhiệt độ, vận tốc, áp suất
